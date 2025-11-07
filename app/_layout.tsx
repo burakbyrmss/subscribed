@@ -39,7 +39,7 @@ function AppContent() {
 export default function RootLayout() {
   return (
     <Provider store={store}>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark">
         <AppContent />
       </ThemeProvider>
     </Provider>

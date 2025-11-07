@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDatabase } from '@/database';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { updateSetting } from '@/store/slices/settingsSlice';
-import { useTheme } from '@/contexts/ThemeContext';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import { getDatabase } from '@/database';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SettingsScreen() {
   const dispatch = useAppDispatch();
@@ -60,13 +59,12 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <ScrollView className="flex-1 px-4 pt-4">
-        {/* Header */}
-        <View className="mb-6">
-          <Text className="text-3xl font-bold text-foreground">
-            Settings
-          </Text>
-        </View>
+      <View className="pt-12 pb-4 px-4 bg-card">
+        <Text className="text-3xl font-bold text-card-foreground">
+          Settings
+        </Text>
+      </View>
+      <ScrollView className="flex-1 px-4">
 
         {/* Theme */}
         <View className="mb-4 p-4 rounded-lg bg-card">

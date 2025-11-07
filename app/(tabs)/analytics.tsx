@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import { View, Text, ScrollView } from 'react-native';
 import { useAppSelector } from '@/store/hooks';
-import { formatCurrency, calculateNextOccurrence } from '@/utils/date';
+import { calculateNextOccurrence, formatCurrency } from '@/utils/date';
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
 export default function AnalyticsScreen() {
   const subscriptions = useAppSelector((state) => state.subscriptions.subscriptions);
@@ -61,16 +61,15 @@ export default function AnalyticsScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <ScrollView className="flex-1 px-4 pt-4">
-        {/* Header */}
-        <View className="mb-6">
-          <Text className="text-3xl font-bold text-foreground">
-            Analytics
-          </Text>
-          <Text className="text-sm mt-1 text-muted-foreground">
+            <View className="pt-12 pb-4 px-4 bg-card">
+        <Text className="text-3xl font-bold text-card-foreground">
+          Analytics
+        </Text>
+        <Text className="text-sm mt-1 text-muted-foreground">
             {dayjs().format('MMMM YYYY')}
           </Text>
-        </View>
+      </View>
+      <ScrollView className="flex-1 px-4">
 
         {/* Current Month Total */}
         <View className="mb-6 p-6 rounded-lg bg-card">

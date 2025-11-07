@@ -1,3 +1,4 @@
+import { FormInput, FormSelect } from '@/components/form';
 import { generateUUID, getCurrentDateTime } from '@/database';
 import { SubscriptionFormData, subscriptionSchema } from '@/schemas/subscription';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -5,26 +6,114 @@ import { addSubscription } from '@/store/slices/subscriptionsSlice';
 import { Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatDate } from '@/utils/date';
 import { zodResolver } from '@hookform/resolvers/zod';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { useRouter } from 'expo-router';
-import { Controller, useForm } from 'react-hook-form';
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Controller, FormProvider, Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { Alert, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-// Note: You'll need to install react-hook-form and @hookform/resolvers
-// npm install react-hook-form @hookform/resolvers
+// Date Picker Component for string-based date fields
+function DatePickerField({
+  value,
+  onChange,
+  error,
+  label,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  error?: { message?: string };
+  label: string;
+}) {
+  const [show, setShow] = useState(false);
+  const dateValue = value ? dayjs(value).toDate() : new Date();
+  const [internalDate, setInternalDate] = useState<Date>(dateValue);
+
+  useEffect(() => {
+    if (value) {
+      setInternalDate(dayjs(value).toDate());
+    }
+  }, [value]);
+
+  const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (Platform.OS === 'android') {
+      setShow(false);
+    }
+
+    if (event.type === 'set' && selectedDate) {
+      setInternalDate(selectedDate);
+      onChange(dayjs(selectedDate).format('YYYY-MM-DD'));
+      if (Platform.OS === 'ios') {
+        setShow(false);
+      }
+    } else if (event.type === 'dismissed') {
+      setShow(false);
+    }
+  };
+
+  const formatDate = (dateStr: string): string => {
+    if (!dateStr) return 'YYYY-MM-DD';
+    return dayjs(dateStr).format('YYYY-MM-DD');
+  };
+
+  return (
+    <View className="mb-4">
+      <Text className="mb-2 font-medium text-foreground">{label}</Text>
+      <TouchableOpacity
+        onPress={() => setShow(true)}
+        className={`p-3 rounded-lg border bg-card border-input ${
+          error ? 'border-destructive' : ''
+        }`}>
+        <Text className="text-card-foreground">{formatDate(value)}</Text>
+      </TouchableOpacity>
+      {error && (
+        <Text className="mt-1 text-sm text-destructive">{error.message}</Text>
+      )}
+
+      {show && (
+        <>
+          {Platform.OS === 'ios' && (
+            <View className="absolute inset-0 bg-black/50 justify-center items-center z-50">
+              <View className="bg-card rounded-lg p-4 w-[90%] max-w-sm">
+                <View className="flex-row justify-between items-center mb-4">
+                  <Text className="text-lg font-semibold text-card-foreground">
+                    {label}
+                  </Text>
+                  <TouchableOpacity onPress={() => setShow(false)}>
+                    <Text className="text-primary font-medium">Done</Text>
+                  </TouchableOpacity>
+                </View>
+                <DateTimePicker
+                  value={internalDate}
+                  mode="date"
+                  display="spinner"
+                  onChange={handleChange}
+                  style={{ backgroundColor: 'transparent' }}
+                />
+              </View>
+            </View>
+          )}
+          {Platform.OS === 'android' && (
+            <DateTimePicker
+              value={internalDate}
+              mode="date"
+              display="default"
+              onChange={handleChange}
+            />
+          )}
+        </>
+      )}
+    </View>
+  );
+}
 
 export default function AddSubscriptionScreen() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const settings = useAppSelector((state) => state.settings.settings);
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<SubscriptionFormData>({
-    resolver: zodResolver(subscriptionSchema),
+  const formMethods = useForm<SubscriptionFormData, any, SubscriptionFormData>({
+    resolver: zodResolver(subscriptionSchema) as Resolver<SubscriptionFormData, any, SubscriptionFormData>,
     defaultValues: {
       name: '',
       notes: null,
@@ -42,6 +131,8 @@ export default function AddSubscriptionScreen() {
     },
   });
 
+  const { control, handleSubmit, watch } = formMethods;
+
   const formData = watch();
   const nextOccurrences = formData.anchor_date && formData.frequency
     ? calculateNextOccurrence(
@@ -55,7 +146,7 @@ export default function AddSubscriptionScreen() {
       )
     : [];
 
-  const onSubmit = async (data: SubscriptionFormData) => {
+  const onSubmit: SubmitHandler<SubscriptionFormData> = async (data) => {
     try {
       const subscription: Subscription = {
         id: generateUUID(),
@@ -75,38 +166,20 @@ export default function AddSubscriptionScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background">
-      <ScrollView className="flex-1 px-4 pt-4">
-        {/* Header */}
-        <View className="mb-6">
-          <Text className="text-3xl font-bold text-foreground">
+    <FormProvider {...formMethods}>
+      <View className="flex-1 bg-background">
+        <View className="pt-12 pb-4 px-4 bg-card">
+          <Text className="text-3xl font-bold text-card-foreground">
             Add Subscription
           </Text>
         </View>
-
+        <ScrollView className="flex-1 px-4">
         {/* Name */}
-        <View className="mb-4">
-          <Text className="mb-2 font-medium text-foreground">
-            Name *
-          </Text>
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                value={value}
-                onChangeText={onChange}
-                placeholder="Netflix, Spotify, etc."
-                className={`p-3 rounded-lg border bg-card border-input text-card-foreground ${
-                  errors.name ? 'border-destructive' : ''
-                }`}
-              />
-            )}
-          />
-          {errors.name && (
-            <Text className="mt-1 text-sm text-destructive">{errors.name.message}</Text>
-          )}
-        </View>
+        <FormInput
+          label="Name *"
+          name="name"
+          placeholder="Netflix, Spotify, etc."
+        />
 
         {/* Price */}
         <View className="mb-4">
@@ -116,74 +189,63 @@ export default function AddSubscriptionScreen() {
           <Controller
             control={control}
             name="price_minor"
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                value={value ? (value / 100).toString() : ''}
-                onChangeText={(text) => {
-                  const num = parseFloat(text) || 0;
-                  onChange(Math.round(num * 100));
-                }}
-                keyboardType="decimal-pad"
-                placeholder="0.00"
-                className="p-3 rounded-lg border bg-card border-input text-card-foreground"
-              />
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <>
+                <View className={`p-3 rounded-lg border bg-card border-input ${
+                  error ? 'border-destructive' : ''
+                }`}>
+                  <TextInput
+                    value={value ? (value / 100).toString() : ''}
+                    onChangeText={(text) => {
+                      const num = parseFloat(text) || 0;
+                      onChange(Math.round(num * 100));
+                    }}
+                    keyboardType="decimal-pad"
+                    placeholder="0.00"
+                    className="text-card-foreground"
+                  />
+                </View>
+                {error && (
+                  <Text className="mt-1 text-sm text-destructive">{error.message}</Text>
+                )}
+              </>
             )}
           />
-          {errors.price_minor && (
-            <Text className="mt-1 text-sm text-destructive">{errors.price_minor.message}</Text>
-          )}
         </View>
 
         {/* Frequency */}
-        <View className="mb-4">
-          <Text className="mb-2 font-medium text-foreground">
-            Frequency *
-          </Text>
-          <Controller
-            control={control}
-            name="frequency"
-            render={({ field: { onChange, value } }) => (
-              <View className="flex-row">
-                {(['weekly', 'monthly', 'yearly'] as const).map((freq) => (
-                  <TouchableOpacity
-                    key={freq}
-                    onPress={() => onChange(freq)}
-                    className={`flex-1 py-3 px-4 rounded-lg mr-2 border ${
-                      value === freq
-                        ? 'bg-primary border-primary'
-                        : 'bg-card border-border'
-                    }`}>
-                    <Text
-                      className={`text-center font-medium ${
-                        value === freq ? 'text-primary-foreground' : 'text-card-foreground'
-                      }`}>
-                      {freq.charAt(0).toUpperCase() + freq.slice(1)}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          />
-        </View>
+        <FormSelect
+          label="Frequency *"
+          name="frequency"
+          options={[
+            { label: 'Weekly', value: 'weekly' },
+            { label: 'Monthly', value: 'monthly' },
+            { label: 'Yearly', value: 'yearly' },
+          ]}
+        />
 
         {/* Anchor Date */}
-        <View className="mb-4">
-          <Text className="mb-2 font-medium text-foreground">
-            First Billing Date *
-          </Text>
-          <Controller
-            control={control}
-            name="anchor_date"
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                value={value}
-                onChangeText={onChange}
-                placeholder="YYYY-MM-DD"
-                className="p-3 rounded-lg border bg-card border-input text-card-foreground"
-              />
-            )}
-          />
-        </View>
+        <Controller
+          control={control}
+          name="anchor_date"
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <DatePickerField
+              value={value}
+              onChange={onChange}
+              error={error}
+              label="First Billing Date *"
+            />
+          )}
+        />
+
+        {/* Notes */}
+        <FormInput
+          label="Notes"
+          name="notes"
+          placeholder="Optional notes about this subscription"
+          multiline
+          numberOfLines={4}
+        />
 
         {/* Reminder Settings */}
         <View className="mb-4">
@@ -194,13 +256,22 @@ export default function AddSubscriptionScreen() {
             <Controller
               control={control}
               name="remind_days_before"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value?.toString()}
-                  onChangeText={(text) => onChange(parseInt(text) || 0)}
-                  keyboardType="number-pad"
-                  className="flex-1 p-3 rounded-lg border mr-2 bg-card border-input text-card-foreground"
-                />
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <>
+                  <View className={`flex-1 p-3 rounded-lg border mr-2 bg-card border-input ${
+                    error ? 'border-destructive' : ''
+                  }`}>
+                    <TextInput
+                      value={value?.toString() || ''}
+                      onChangeText={(text) => onChange(parseInt(text) || 0)}
+                      keyboardType="number-pad"
+                      className="text-card-foreground"
+                    />
+                  </View>
+                  {error && (
+                    <Text className="mt-1 text-sm text-destructive">{error.message}</Text>
+                  )}
+                </>
               )}
             />
             <Text className="text-foreground">days before</Text>
@@ -225,10 +296,12 @@ export default function AddSubscriptionScreen() {
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
           className="py-4 px-6 rounded-lg mb-8 bg-primary">
-          <Text className="text-center text-primary-foreground font-semibold text-lg">Save Subscription</Text>
+          <Text className="text-center text-primary-foreground font-semibold text-lg">
+            Save Subscription
+          </Text>
         </TouchableOpacity>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </FormProvider>
   );
 }
-
