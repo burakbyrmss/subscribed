@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useAppSelector } from '@/store/hooks';
+import { getAllSettings } from '@/database';
+import { useEffect, useState } from 'react';
 
 export function useOnboarding() {
-  const settings = useAppSelector((state) => state.settings.settings);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check if onboarding has been completed
-    // For now, we'll check a setting. In a real app, you might want to check AsyncStorage
-    const completed = settings.backup_hint_dismissed === 'true'; // Temporary check
-    setHasCompletedOnboarding(completed);
-  }, [settings]);
+    const checkOnboarding = async () => {
+      const settings = await getAllSettings();
+      const backupHintSetting = settings.find((s) => s.key === 'backup_hint_dismissed');
+      const completed = backupHintSetting?.value === 'true';
+      setHasCompletedOnboarding(completed);
+    };
+    checkOnboarding();
+  }, []);
 
   return hasCompletedOnboarding;
 }

@@ -3,12 +3,10 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { Provider } from 'react-redux';
 import '../global.css';
 
 import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
 import { initDatabase } from '@/database';
-import { store } from '@/store';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -27,9 +25,10 @@ function AppContent() {
   return (
     <NavigationThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false } as any} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        <Stack.Screen name="subscription/[id]" options={{ headerShown: false } as any} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' } as any} />
       </Stack>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
     </NavigationThemeProvider>
@@ -38,10 +37,8 @@ function AppContent() {
 
 export default function RootLayout() {
   return (
-    <Provider store={store}>
-      <ThemeProvider defaultTheme="dark">
-        <AppContent />
-      </ThemeProvider>
-    </Provider>
+    <ThemeProvider defaultTheme="dark">
+      <AppContent />
+    </ThemeProvider>
   );
 }

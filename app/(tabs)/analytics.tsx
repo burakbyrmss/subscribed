@@ -1,13 +1,40 @@
-import { useAppSelector } from '@/store/hooks';
+import { getAllCategories, getAllSettings, getAllSubscriptions } from '@/database';
+import { Category, SettingKey, Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatCurrency } from '@/utils/date';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 export default function AnalyticsScreen() {
-  const subscriptions = useAppSelector((state) => state.subscriptions.subscriptions);
-  const categories = useAppSelector((state) => state.categories.categories);
-  const settings = useAppSelector((state) => state.settings.settings);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [settings, setSettings] = useState<Record<SettingKey, string>>({
+    currency_default: 'USD',
+    first_day_of_week: '0',
+    locale: 'en-US',
+    theme: 'dark',
+    backup_hint_dismissed: 'false',
+  });
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [subs, cats, settingsData] = await Promise.all([
+        getAllSubscriptions(),
+        getAllCategories(),
+        getAllSettings(),
+      ]);
+      setSubscriptions(subs);
+      setCategories(cats);
+      
+      // Convert settings array to Record format
+      const settingsRecord = settingsData.reduce((acc, setting) => {
+        acc[setting.key as SettingKey] = setting.value;
+        return acc;
+      }, {} as Record<SettingKey, string>);
+      setSettings({ ...settings, ...settingsRecord });
+    };
+    loadData();
+  }, []);
 
   const currentMonth = dayjs().month();
   const currentYear = dayjs().year();

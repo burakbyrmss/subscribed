@@ -1,16 +1,33 @@
 import { FilterBar } from '@/components/filter-bar';
 import { SubscriptionCard } from '@/components/subscription-card';
-import { useAppSelector } from '@/store/hooks';
+import { getAllCategories, getAllSubscriptions } from '@/database';
+import { Category, Subscription } from '@/types/database';
 import { calculateNextOccurrence } from '@/utils/date';
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-type Segment = 'upcoming' | 'all' | 'canceled';
+type Segment = 'upcoming' | 'all' | 'paused';
 
 export default function HomeScreen() {
-  const subscriptions = useAppSelector((state) => state.subscriptions.subscriptions);
-  const categories = useAppSelector((state) => state.categories.categories);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const loadData = useCallback(async () => {
+    const [subs, cats] = await Promise.all([
+      getAllSubscriptions(),
+      getAllCategories(),
+    ]);
+    setSubscriptions(subs);
+    setCategories(cats);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData])
+  );
 
   const [segment, setSegment] = useState<Segment>('upcoming');
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,11 +44,11 @@ export default function HomeScreen() {
         const nextDue = calculateNextOccurrence(sub, 1)[0];
         return dayjs(nextDue).isBefore(thirtyDaysFromNow) || dayjs(nextDue).isSame(thirtyDaysFromNow, 'day');
       });
-    } else if (segment === 'canceled') {
-      filtered = filtered.filter((sub) => sub.status === 'canceled');
+    } else if (segment === 'paused') {
+      filtered = filtered.filter((sub) => sub.status === 'paused');
     } else {
-      // All - show all except canceled
-      filtered = filtered.filter((sub) => sub.status !== 'canceled');
+      // All - show all except paused
+      filtered = filtered.filter((sub) => sub.status !== 'paused');
     }
 
     // Filter by search query
@@ -67,7 +84,7 @@ export default function HomeScreen() {
   const segments: { key: Segment; label: string }[] = [
     { key: 'upcoming', label: 'Upcoming (30d)' },
     { key: 'all', label: 'All' },
-    { key: 'canceled', label: 'Canceled' },
+    { key: 'paused', label: 'Paused' },
   ];
 
   return (

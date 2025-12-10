@@ -1,45 +1,77 @@
-import { openDatabaseAsync, SQLiteDatabase } from 'expo-sqlite';
-import { getAllSchemas } from './schema';
+// Re-export all CRUD operations from separate files
+// Import for internal use
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { deleteOccurrenceLogsBySubscription } from './occurrenceLog';
+import { deleteRemindersBySubscription } from './reminders';
+import { getAllSettings } from './settings';
+import { STORAGE_KEYS } from './storage';
+import {
+  createSubscription,
+  deleteSubscription as deleteSubscriptionBase,
+  getAllSubscriptions,
+  getSubscription,
+  getSubscriptionsByCategory,
+  getSubscriptionsByStatus,
+  saveSubscription,
+  updateSubscription,
+} from './subscriptions';
 
-let db: SQLiteDatabase | null = null;
+export * from './categories';
+export * from './occurrenceLog';
+export * from './reminders';
+export * from './settings';
 
-export async function initDatabase(): Promise<SQLiteDatabase> {
-  if (db) {
-    return db;
-  }
+// Export subscription functions (except deleteSubscription which we override below)
+export {
+  createSubscription, getAllSubscriptions,
+  getSubscription,
+  getSubscriptionsByCategory,
+  getSubscriptionsByStatus, saveSubscription, updateSubscription
+};
 
-  try {
-    // Open database connection
-    db = await openDatabaseAsync('subscribed.db');
+// Re-export storage utilities
+  export { STORAGE_KEYS } from './storage';
 
-    // Enable foreign keys
-    await db.execAsync('PRAGMA foreign_keys = ON;');
-
-    // Create all tables and indexes
-    const schemas = getAllSchemas();
-    for (const schema of schemas) {
-      await db.execAsync(schema);
-    }
-
-    console.log('Database initialized successfully');
-    return db;
-  } catch (error) {
-    console.error('Error initializing database:', error);
-    throw error;
-  }
+// Override deleteSubscription to handle cascading deletes
+export async function deleteSubscription(id: string): Promise<void> {
+  // Delete related occurrence logs and reminders first
+  await deleteOccurrenceLogsBySubscription(id);
+  await deleteRemindersBySubscription(id);
+  // Then delete the subscription
+  await deleteSubscriptionBase(id);
 }
 
-export function getDatabase(): SQLiteDatabase {
-  if (!db) {
-    throw new Error('Database not initialized. Call initDatabase() first.');
-  }
-  return db;
+// Initialize database (no-op for localStorage, but kept for compatibility)
+export async function initDatabase(): Promise<void> {
+  // localStorage/AsyncStorage doesn't need initialization
+  // This function is kept for compatibility with existing code
+  console.log('Database ready (using AsyncStorage)');
+  // log the settings data from the database
+  const settings = await getAllSettings();
+  console.log('Settings:', settings);
 }
 
+// Close database (no-op for localStorage, but kept for compatibility)
 export async function closeDatabase(): Promise<void> {
-  if (db) {
-    await db.closeAsync();
-    db = null;
+  // localStorage/AsyncStorage doesn't need closing
+  // This function is kept for compatibility with existing code
+  console.log('Database closed (using AsyncStorage)');
+}
+
+// Reset/clear all database data (for development purposes)
+export async function resetDatabase(): Promise<void> {
+  try {
+    await Promise.all([
+      AsyncStorage.removeItem(STORAGE_KEYS.SUBSCRIPTIONS),
+      AsyncStorage.removeItem(STORAGE_KEYS.CATEGORIES),
+      AsyncStorage.removeItem(STORAGE_KEYS.SETTINGS),
+      AsyncStorage.removeItem(STORAGE_KEYS.OCCURRENCE_LOG),
+      AsyncStorage.removeItem(STORAGE_KEYS.REMINDERS),
+    ]);
+    console.log('Database reset successfully');
+  } catch (error) {
+    console.error('Error resetting database:', error);
+    throw error;
   }
 }
 
@@ -61,4 +93,3 @@ export function getCurrentDateTime(): string {
 export function getCurrentDate(): string {
   return new Date().toISOString().split('T')[0];
 }
-

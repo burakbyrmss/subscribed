@@ -1,15 +1,13 @@
 import { FormInput, FormSelect } from '@/components/form';
-import { generateUUID, getCurrentDateTime } from '@/database';
+import { generateUUID, getAllSettings, getCurrentDateTime, saveSubscription } from '@/database';
 import { SubscriptionFormData, subscriptionSchema } from '@/schemas/subscription';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { addSubscription } from '@/store/slices/subscriptionsSlice';
 import { Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatDate } from '@/utils/date';
 import { zodResolver } from '@hookform/resolvers/zod';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, FormProvider, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { Alert, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -109,27 +107,69 @@ function DatePickerField({
 
 export default function AddSubscriptionScreen() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const settings = useAppSelector((state) => state.settings.settings);
+  const [currencyDefault, setCurrencyDefault] = useState<string>('USD');
+  const isFirstMount = useRef(true);
+
+  // Load settings when screen comes into focus (including when navigating back to this tab)
+  useFocusEffect(
+    useCallback(() => {
+      console.log('loadSettings');
+      const loadSettings = async () => {
+        const settings = await getAllSettings();
+        const currencySetting = settings.find((s) => s.key === 'currency_default');
+        if (currencySetting) {
+          setCurrencyDefault(currencySetting.value);
+        }
+      };
+      loadSettings();
+    }, [])
+  );
+
+  const getDefaultValues = useCallback(() => ({
+    name: '',
+    notes: null,
+    price_minor: 0,
+    currency: currencyDefault || 'USD',
+    frequency: 'monthly' as const,
+    interval: 1,
+    anchor_date: dayjs().format('YYYY-MM-DD'),
+    by_month_day: null,
+    remind_days_before: 2,
+    remind_time: '09:00',
+    category_id: null,
+    tags: null,
+    status: 'active' as const,
+  }), [currencyDefault]);
 
   const formMethods = useForm<SubscriptionFormData, any, SubscriptionFormData>({
     resolver: zodResolver(subscriptionSchema) as Resolver<SubscriptionFormData, any, SubscriptionFormData>,
-    defaultValues: {
-      name: '',
-      notes: null,
-      price_minor: 0,
-      currency: settings.currency_default || 'USD',
-      frequency: 'monthly',
-      interval: 1,
-      anchor_date: dayjs().format('YYYY-MM-DD'),
-      by_month_day: null,
-      remind_days_before: 2,
-      remind_time: '09:00',
-      category_id: null,
-      tags: null,
-      status: 'active',
-    },
+    defaultValues: getDefaultValues(),
   });
+
+  const { setValue, reset } = formMethods;
+
+  // Reset form when currency default changes
+  useEffect(() => {
+    if (currencyDefault && !isFirstMount.current) {
+      setValue('currency', currencyDefault);
+    }
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+    }
+  }, [currencyDefault, setValue]);
+
+  // Reset form when screen loses focus (navigating away)
+  useFocusEffect(
+    useCallback(() => {
+      // When screen comes into focus, reset form if it wasn't just mounted
+      return () => {
+        // Cleanup: Reset form when screen loses focus
+        if (!isFirstMount.current) {
+          reset(getDefaultValues());
+        }
+      };
+    }, [reset, getDefaultValues])
+  );
 
   const { control, handleSubmit, watch } = formMethods;
 
@@ -155,10 +195,11 @@ export default function AddSubscriptionScreen() {
         updated_at: getCurrentDateTime(),
       };
 
-      // TODO: Save to database
-      // await saveSubscriptionToDatabase(subscription);
+      // Save to database
+      await saveSubscription(subscription);
 
-      dispatch(addSubscription(subscription));
+      // Reset form before navigating away
+      reset(getDefaultValues());
       router.back();
     } catch {
       Alert.alert('Error', 'Failed to save subscription');
@@ -184,7 +225,7 @@ export default function AddSubscriptionScreen() {
         {/* Price */}
         <View className="mb-4">
           <Text className="mb-2 font-medium text-foreground">
-            Price *
+            Price ({currencyDefault}) *
           </Text>
           <Controller
             control={control}
