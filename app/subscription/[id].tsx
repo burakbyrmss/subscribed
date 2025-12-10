@@ -100,24 +100,42 @@ export default function SubscriptionDetailScreen() {
     );
   };
 
-  const handlePause = async () => {
-    try {
-      const newStatus = subscription.status === 'active' ? 'paused' : 'active';
-      await updateSubscription({
-        ...subscription,
-        status: newStatus,
-        updated_at: getCurrentDateTime(),
-      });
-      
-      // Reload subscriptions to reflect the change
-      const [subs] = await Promise.all([
-        getAllSubscriptions(),
-      ]);
-      setSubscriptions(subs);
-    } catch (error) {
-      console.error('Error updating subscription status:', error);
-      Alert.alert('Error', 'Failed to update subscription status. Please try again.');
-    }
+  const handlePause = () => {
+    const action = subscription.status === 'active' ? 'pause' : 'resume';
+    const actionCapitalized = subscription.status === 'active' ? 'Pause' : 'Resume';
+    
+    Alert.alert(
+      `${actionCapitalized} Subscription`,
+      `Are you sure you want to ${action} "${subscription.name}"?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: actionCapitalized,
+          onPress: async () => {
+            try {
+              const newStatus = subscription.status === 'active' ? 'paused' : 'active';
+              await updateSubscription({
+                ...subscription,
+                status: newStatus,
+                updated_at: getCurrentDateTime(),
+              });
+              
+              // Reload subscriptions to reflect the change
+              const [subs] = await Promise.all([
+                getAllSubscriptions(),
+              ]);
+              setSubscriptions(subs);
+            } catch (error) {
+              console.error('Error updating subscription status:', error);
+              Alert.alert('Error', 'Failed to update subscription status. Please try again.');
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
