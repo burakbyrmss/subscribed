@@ -1,12 +1,14 @@
-import dayjs from 'dayjs';
 import { Subscription } from '@/types/database';
+import dayjs from 'dayjs';
 
 export function formatCurrency(amountMinor: number, currency: string = 'USD'): string {
   const amount = amountMinor / 100;
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
+  // Format number with 2 decimal places and add currency code
+  const formattedAmount = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(amount);
+  return `${formattedAmount} ${currency}`;
 }
 
 export function calculateNextOccurrence(

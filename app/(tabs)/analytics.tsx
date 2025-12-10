@@ -31,7 +31,7 @@ export default function AnalyticsScreen() {
         acc[setting.key as SettingKey] = setting.value;
         return acc;
       }, {} as Record<SettingKey, string>);
-      setSettings({ ...settings, ...settingsRecord });
+      setSettings((prevSettings) => ({ ...prevSettings, ...settingsRecord }));
     };
     loadData();
   }, []);
@@ -42,25 +42,34 @@ export default function AnalyticsScreen() {
   const analytics = useMemo(() => {
     const activeSubscriptions = subscriptions.filter((sub) => sub.status === 'active');
 
-    // Calculate current month total
-    const currentMonthTotal = activeSubscriptions.reduce((total, sub) => {
+    // Calculate current month total per currency
+    const currentMonthTotalByCurrency: Record<string, number> = {};
+    activeSubscriptions.forEach((sub) => {
       const occurrences = calculateNextOccurrence(sub, 12); // Get next 12 occurrences
       const monthOccurrences = occurrences.filter((date) => {
         const d = dayjs(date);
         return d.month() === currentMonth && d.year() === currentYear;
       });
-      return total + sub.price_minor * monthOccurrences.length;
-    }, 0);
+      
+      if (!currentMonthTotalByCurrency[sub.currency]) {
+        currentMonthTotalByCurrency[sub.currency] = 0;
+      }
+      currentMonthTotalByCurrency[sub.currency] += sub.price_minor * monthOccurrences.length;
+    });
 
-    // Per-category breakdown
-    const categoryBreakdown: Record<string, { total: number; count: number }> = {};
+    // Per-category breakdown per currency
+    const categoryBreakdown: Record<string, Record<string, { total: number; count: number }>> = {};
     activeSubscriptions.forEach((sub) => {
       const categoryId = sub.category_id || 'uncategorized';
       const categoryName =
         categories.find((c) => c.id === categoryId)?.name || 'Uncategorized';
 
       if (!categoryBreakdown[categoryName]) {
-        categoryBreakdown[categoryName] = { total: 0, count: 0 };
+        categoryBreakdown[categoryName] = {};
+      }
+
+      if (!categoryBreakdown[categoryName][sub.currency]) {
+        categoryBreakdown[categoryName][sub.currency] = { total: 0, count: 0 };
       }
 
       const occurrences = calculateNextOccurrence(sub, 12);
@@ -69,22 +78,33 @@ export default function AnalyticsScreen() {
         return d.month() === currentMonth && d.year() === currentYear;
       });
 
-      categoryBreakdown[categoryName].total += sub.price_minor * monthOccurrences.length;
-      categoryBreakdown[categoryName].count += 1;
+      categoryBreakdown[categoryName][sub.currency].total += sub.price_minor * monthOccurrences.length;
+      categoryBreakdown[categoryName][sub.currency].count += 1;
+    });
+
+    // Flatten category breakdown to show each category-currency combination
+    const categoryBreakdownList: { name: string; currency: string; total: number; count: number; percentage: number }[] = [];
+    Object.entries(categoryBreakdown).forEach(([categoryName, currencies]) => {
+      Object.entries(currencies).forEach(([currency, data]) => {
+        const currencyTotal = currentMonthTotalByCurrency[currency] || 0;
+        categoryBreakdownList.push({
+          name: categoryName,
+          currency,
+          total: data.total,
+          count: data.count,
+          percentage: currencyTotal > 0 ? (data.total / currencyTotal) * 100 : 0,
+        });
+      });
     });
 
     return {
-      currentMonthTotal,
-      categoryBreakdown: Object.entries(categoryBreakdown).map(([name, data]) => ({
-        name,
-        total: data.total,
-        count: data.count,
-        percentage: currentMonthTotal > 0 ? (data.total / currentMonthTotal) * 100 : 0,
+      currentMonthTotalByCurrency: Object.entries(currentMonthTotalByCurrency).map(([currency, total]) => ({
+        currency,
+        total,
       })),
+      categoryBreakdown: categoryBreakdownList,
     };
   }, [subscriptions, categories, currentMonth, currentYear]);
-
-  const currency = settings.currency_default || 'USD';
 
   return (
     <View className="flex-1 bg-background">
@@ -98,14 +118,29 @@ export default function AnalyticsScreen() {
       </View>
       <ScrollView className="flex-1 px-4">
 
-        {/* Current Month Total */}
-        <View className="mb-6 p-6 rounded-lg bg-card">
-          <Text className="text-sm font-medium mb-2 text-muted-foreground">
+        {/* Current Month Total by Currency */}
+        <View className="mb-6">
+          <Text className="text-sm font-medium mb-3 text-muted-foreground">
             Current Month Total
           </Text>
-          <Text className="text-4xl font-bold text-card-foreground">
-            {formatCurrency(analytics.currentMonthTotal, currency)}
-          </Text>
+          {analytics.currentMonthTotalByCurrency.length === 0 ? (
+            <View className="p-6 rounded-lg bg-card">
+              <Text className="text-muted-foreground">
+                No active subscriptions this month
+              </Text>
+            </View>
+          ) : (
+            analytics.currentMonthTotalByCurrency.map(({ currency, total }) => (
+              <View key={currency} className="mb-3 p-6 rounded-lg bg-card">
+                <Text className="text-xs font-medium mb-1 text-muted-foreground uppercase">
+                  {currency}
+                </Text>
+                <Text className="text-4xl font-bold text-card-foreground">
+                  {formatCurrency(total, currency)}
+                </Text>
+              </View>
+            ))
+          )}
         </View>
 
         {/* Category Breakdown */}
@@ -121,14 +156,19 @@ export default function AnalyticsScreen() {
           ) : (
             analytics.categoryBreakdown.map((category, index) => (
               <View
-                key={index}
+                key={`${category.name}-${category.currency}-${index}`}
                 className="mb-4 p-4 rounded-lg bg-card">
                 <View className="flex-row justify-between items-center mb-2">
+                  <View className="flex-1">
+                    <Text className="font-semibold text-card-foreground">
+                      {category.name}
+                    </Text>
+                    <Text className="text-xs text-muted-foreground uppercase mt-0.5">
+                      {category.currency}
+                    </Text>
+                  </View>
                   <Text className="font-semibold text-card-foreground">
-                    {category.name}
-                  </Text>
-                  <Text className="font-semibold text-card-foreground">
-                    {formatCurrency(category.total, currency)}
+                    {formatCurrency(category.total, category.currency)}
                   </Text>
                 </View>
                 <View className="flex-row items-center">
