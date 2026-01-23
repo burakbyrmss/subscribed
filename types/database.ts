@@ -14,6 +14,7 @@ export interface Subscription {
   interval: number; // Default 1
   anchor_date: string; // ISO date string (YYYY-MM-DD)
   by_month_day: number | null; // For month-based rules (1-31)
+  notify_me?: boolean; // Default true; when false, no notifications are scheduled
   remind_days_before: number; // Default 2
   remind_time: string; // HH:mm format, default "09:00"
   category_id: string | null; // FK to categories.id

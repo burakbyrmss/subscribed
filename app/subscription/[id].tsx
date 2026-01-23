@@ -1,8 +1,8 @@
 import { deleteSubscription as deleteSubscriptionFromDB, getAllCategories, getAllSubscriptions, getCurrentDateTime, updateSubscription } from '@/database';
 import { Category, Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatCurrency, formatDate, formatRelativeDate } from '@/utils/date';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SubscriptionDetailScreen() {
@@ -11,17 +11,20 @@ export default function SubscriptionDetailScreen() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    const loadData = async () => {
-      const [subs, cats] = await Promise.all([
-        getAllSubscriptions(),
-        getAllCategories(),
-      ]);
-      setSubscriptions(subs);
-      setCategories(cats);
-    };
-    loadData();
+  const loadData = useCallback(async () => {
+    const [subs, cats] = await Promise.all([
+      getAllSubscriptions(),
+      getAllCategories(),
+    ]);
+    setSubscriptions(subs);
+    setCategories(cats);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData])
+  );
 
   const subscription = subscriptions.find((s) => s.id === id);
 
@@ -124,10 +127,7 @@ export default function SubscriptionDetailScreen() {
               });
               
               // Reload subscriptions to reflect the change
-              const [subs] = await Promise.all([
-                getAllSubscriptions(),
-              ]);
-              setSubscriptions(subs);
+              loadData();
             } catch (error) {
               console.error('Error updating subscription status:', error);
               Alert.alert('Error', 'Failed to update subscription status. Please try again.');

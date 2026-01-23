@@ -11,6 +11,7 @@ export const subscriptionSchema = z.object({
   interval: z.number().int().positive().default(1),
   anchor_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
   by_month_day: z.number().int().min(1).max(31).nullable(),
+  notify_me: z.boolean().default(true),
   remind_days_before: z.number().int().min(0).max(30).default(2),
   remind_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Time must be in HH:mm format'),
   category_id: z.string().uuid().nullable(),

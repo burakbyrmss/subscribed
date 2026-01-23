@@ -2,7 +2,8 @@ import { getAllCategories, getAllSettings, getAllSubscriptions } from '@/databas
 import { Category, SettingKey, Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatCurrency } from '@/utils/date';
 import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 export default function AnalyticsScreen() {
@@ -16,25 +17,28 @@ export default function AnalyticsScreen() {
     backup_hint_dismissed: 'false',
   });
 
-  useEffect(() => {
-    const loadData = async () => {
-      const [subs, cats, settingsData] = await Promise.all([
-        getAllSubscriptions(),
-        getAllCategories(),
-        getAllSettings(),
-      ]);
-      setSubscriptions(subs);
-      setCategories(cats);
-      
-      // Convert settings array to Record format
-      const settingsRecord = settingsData.reduce((acc, setting) => {
-        acc[setting.key as SettingKey] = setting.value;
-        return acc;
-      }, {} as Record<SettingKey, string>);
-      setSettings((prevSettings) => ({ ...prevSettings, ...settingsRecord }));
-    };
-    loadData();
+  const loadData = useCallback(async () => {
+    const [subs, cats, settingsData] = await Promise.all([
+      getAllSubscriptions(),
+      getAllCategories(),
+      getAllSettings(),
+    ]);
+    setSubscriptions(subs);
+    setCategories(cats);
+    
+    // Convert settings array to Record format
+    const settingsRecord = settingsData.reduce((acc, setting) => {
+      acc[setting.key as SettingKey] = setting.value;
+      return acc;
+    }, {} as Record<SettingKey, string>);
+    setSettings((prevSettings) => ({ ...prevSettings, ...settingsRecord }));
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData])
+  );
 
   const currentMonth = dayjs().month();
   const currentYear = dayjs().year();

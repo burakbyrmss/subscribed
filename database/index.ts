@@ -1,8 +1,8 @@
 // Re-export all CRUD operations from separate files
 // Import for internal use
+import { cancelNotificationsForSubscription } from '@/utils/notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteOccurrenceLogsBySubscription } from './occurrenceLog';
-import { deleteRemindersBySubscription } from './reminders';
 import { getAllSettings } from './settings';
 import { STORAGE_KEYS } from './storage';
 import {
@@ -20,6 +20,7 @@ export * from './categories';
 export * from './occurrenceLog';
 export * from './reminders';
 export * from './settings';
+export { generateUUID, getCurrentDateTime, getCurrentDate } from './utils';
 
 // Export subscription functions (except deleteSubscription which we override below)
 export {
@@ -34,9 +35,9 @@ export {
 
 // Override deleteSubscription to handle cascading deletes
 export async function deleteSubscription(id: string): Promise<void> {
-  // Delete related occurrence logs and reminders first
+  // Cancel scheduled notifications and delete reminder records
+  await cancelNotificationsForSubscription(id);
   await deleteOccurrenceLogsBySubscription(id);
-  await deleteRemindersBySubscription(id);
   // Then delete the subscription
   await deleteSubscriptionBase(id);
 }
@@ -73,23 +74,4 @@ export async function resetDatabase(): Promise<void> {
     console.error('Error resetting database:', error);
     throw error;
   }
-}
-
-// Utility function to generate UUID v4
-export function generateUUID(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
-// Utility function to get current datetime in ISO format
-export function getCurrentDateTime(): string {
-  return new Date().toISOString();
-}
-
-// Utility function to get current date in YYYY-MM-DD format
-export function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0];
 }
