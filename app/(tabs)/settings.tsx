@@ -14,7 +14,7 @@ export default function SettingsScreen() {
   const { theme, toggleTheme } = useTheme();
   const [settings, setSettings] = useState<Record<SettingKey, string>>({
     currency_default: 'USD',
-    first_day_of_week: '0',
+    first_day_of_week: '1',
     locale: 'en-US',
     theme: 'dark',
     backup_hint_dismissed: 'false',
@@ -319,7 +319,7 @@ export default function SettingsScreen() {
               // Reset settings to defaults
               setSettings({
                 currency_default: 'USD',
-                first_day_of_week: '0',
+                first_day_of_week: '1',
                 locale: 'en-US',
                 theme: 'dark',
                 backup_hint_dismissed: 'false',

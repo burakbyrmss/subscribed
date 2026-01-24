@@ -11,7 +11,7 @@ export default function AnalyticsScreen() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [settings, setSettings] = useState<Record<SettingKey, string>>({
     currency_default: 'USD',
-    first_day_of_week: '0',
+    first_day_of_week: '1',
     locale: 'en-US',
     theme: 'dark',
     backup_hint_dismissed: 'false',
