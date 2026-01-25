@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 export interface FormSelectOption {
   label: string;
@@ -20,12 +21,15 @@ export function FormSelect({
   label,
   name,
   options,
-  placeholder = 'Select an option',
+  placeholder,
   containerClassName = '',
   selectClassName = '',
 }: FormSelectProps) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { control } = useFormContext();
+
+  const displayPlaceholder = placeholder || t('common.selectOption');
 
   return (
     <Controller
@@ -46,7 +50,7 @@ export function FormSelect({
                 className={`${
                   selectedOption ? 'text-card-foreground' : 'text-muted-foreground'
                 }`}>
-                {selectedOption ? selectedOption.label : placeholder}
+                {selectedOption ? selectedOption.label : displayPlaceholder}
               </Text>
             </TouchableOpacity>
             {error && (
@@ -97,7 +101,7 @@ export function FormSelect({
                     onPress={() => setIsOpen(false)}
                     className="mt-4 py-3 px-4 rounded-lg bg-secondary">
                     <Text className="text-center font-medium text-card-foreground">
-                      Cancel
+                      {t('common.cancel')}
                     </Text>
                   </TouchableOpacity>
                 </TouchableOpacity>

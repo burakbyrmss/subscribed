@@ -3,6 +3,7 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker';
 import React, { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Platform, Text, TouchableOpacity, View } from 'react-native';
 
 export interface FormDatePickerProps {
@@ -38,6 +39,7 @@ function DatePickerInner({
   minimumDate,
   maximumDate,
 }: DatePickerInnerProps) {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [internalDate, setInternalDate] = useState<Date>(() => {
     if (!value) return new Date();
@@ -92,7 +94,7 @@ function DatePickerInner({
 
   const displayValue = value
     ? formatDate(value instanceof Date ? value : String(value))
-    : 'Select date';
+    : t('common.selectDate');
 
   return (
     <View className={`mb-4 ${containerClassName}`}>
@@ -118,7 +120,7 @@ function DatePickerInner({
                     {label}
                   </Text>
                   <TouchableOpacity onPress={() => setShow(false)}>
-                    <Text className="text-primary font-medium">Done</Text>
+                    <Text className="text-primary font-medium">{t('common.done')}</Text>
                   </TouchableOpacity>
                 </View>
                 <DateTimePicker

@@ -2,17 +2,20 @@ import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } fro
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import 'react-native-reanimated';
 import '../global.css';
 
 import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
 import { initDatabase } from '@/database';
+import '@/i18n';
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
 function AppContent() {
+  const { t } = useTranslation();
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -28,7 +31,7 @@ function AppContent() {
         <Stack.Screen name="onboarding" options={{ headerShown: false } as any} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="subscription/[id]" options={{ headerShown: false } as any} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' } as any} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', title: t('common.modal') } as any} />
       </Stack>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
     </NavigationThemeProvider>

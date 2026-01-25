@@ -8,9 +8,11 @@ import * as Notifications from 'expo-notifications';
 import { useFocusEffect } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SettingsScreen() {
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const [settings, setSettings] = useState<Record<SettingKey, string>>({
     currency_default: 'USD',
@@ -338,7 +340,7 @@ export default function SettingsScreen() {
     <View className="flex-1 bg-background">
       <View className="pt-12 pb-4 px-4 bg-card">
         <Text className="text-3xl font-bold text-card-foreground">
-          Settings
+          {t('tabs.settings')}
         </Text>
       </View>
       <ScrollView className="flex-1 px-4">
@@ -346,14 +348,14 @@ export default function SettingsScreen() {
         {/* Theme */}
         <View className="mb-4 p-4 rounded-lg bg-card">
           <Text className="text-lg font-semibold mb-4 text-card-foreground">
-            Appearance
+            {t('settings.appearance')}
           </Text>
           <TouchableOpacity
             onPress={toggleTheme}
             className="flex-row justify-between items-center py-3 border-b border-border">
-            <Text className="text-card-foreground">Theme</Text>
+            <Text className="text-card-foreground">{t('settings.theme')}</Text>
             <Text className="font-medium text-primary">
-              {theme === 'dark' ? 'Dark' : 'Light'}
+              {theme === 'dark' ? t('settings.themes.dark') : t('settings.themes.light')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -361,7 +363,7 @@ export default function SettingsScreen() {
         {/* Currency */}
         <View className="mb-4 p-4 rounded-lg bg-card">
           <Text className="text-lg font-semibold mb-4 text-card-foreground">
-            Currency
+            {t('settings.currency')}
           </Text>
           <View className="flex-row flex-wrap">
             {currencies.map((curr) => (
@@ -389,12 +391,12 @@ export default function SettingsScreen() {
         {/* First Day of Week */}
         <View className="mb-4 p-4 rounded-lg bg-card">
           <Text className="text-lg font-semibold mb-4 text-card-foreground">
-            First Day of Week
+            {t('settings.firstDayOfWeek')}
           </Text>
           <View className="flex-row">
             {[
-              { value: '0', label: 'Sunday' },
-              { value: '1', label: 'Monday' },
+              { value: '0', label: t('settings.days.sunday') },
+              { value: '1', label: t('settings.days.monday') },
             ].map((day) => (
               <TouchableOpacity
                 key={day.value}
@@ -420,18 +422,18 @@ export default function SettingsScreen() {
         {/* Export/Import */}
         <View className="mb-4 p-4 rounded-lg bg-card">
           <Text className="text-lg font-semibold mb-4 text-card-foreground">
-            Backup & Restore
+            {t('settings.backupRestore')}
           </Text>
           <TouchableOpacity
             onPress={handleExport}
             className="py-3 mb-3 rounded-lg bg-primary">
-            <Text className="text-center text-primary-foreground font-semibold">Export Data</Text>
+            <Text className="text-center text-primary-foreground font-semibold">{t('settings.exportData')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleImport}
             className="py-3 rounded-lg border border-border bg-card">
             <Text className="text-center font-semibold text-card-foreground">
-              Import Data
+              {t('settings.importData')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -439,35 +441,35 @@ export default function SettingsScreen() {
         {/* Development */}
         <View className="mb-8 p-4 rounded-lg bg-card border border-destructive/20">
           <Text className="text-lg font-semibold mb-2 text-card-foreground">
-            Development
+            {t('settings.development')}
           </Text>
           <Text className="text-sm mb-4 text-muted-foreground">
-            Test notifications and reset data. For development only.
+            {t('settings.developmentDescription')}
           </Text>
           <TouchableOpacity
             onPress={async () => {
               try {
                 const { status } = await Notifications.requestPermissionsAsync();
                 if (status !== 'granted') {
-                  Alert.alert('Permission required', 'Enable notifications in Settings to receive test notifications.');
+                  Alert.alert(t('settings.notifications.permissionRequired'), t('settings.notifications.enableInSettings'));
                   return;
                 }
                 await scheduleTestNotification();
-                Alert.alert('Test notification', 'A test notification was sent. Check your device.');
+                Alert.alert(t('settings.notifications.testSent'), t('settings.notifications.checkDevice'));
               } catch (e) {
-                Alert.alert('Error', 'Failed to send test notification. Ensure notification permissions are granted.');
+                Alert.alert(t('common.error'), t('settings.notifications.sendFailed'));
               }
             }}
             className="py-3 mb-3 rounded-lg border border-border bg-card">
             <Text className="text-center font-semibold text-card-foreground">
-              Send test notification
+              {t('settings.sendTestNotification')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleResetDatabase}
             className="py-3 rounded-lg bg-destructive">
             <Text className="text-center text-destructive-foreground font-semibold">
-              Reset Database
+              {t('settings.resetData')}
             </Text>
           </TouchableOpacity>
         </View>

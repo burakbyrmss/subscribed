@@ -1,4 +1,4 @@
-package com.anonymous.subscribed
+package com.utilizing.subnote
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

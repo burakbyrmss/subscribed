@@ -1,6 +1,7 @@
 import { Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatCurrency, formatRelativeDate } from '@/utils/date';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 interface SubscriptionCardProps {
@@ -8,6 +9,7 @@ interface SubscriptionCardProps {
 }
 
 export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const nextDue = calculateNextOccurrence(subscription, 1)[0];
 
@@ -27,11 +29,17 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
   const getFrequencyLabel = () => {
     switch (subscription.frequency) {
       case 'weekly':
-        return subscription.interval === 1 ? 'Weekly' : `Every ${subscription.interval} weeks`;
+        return subscription.interval === 1 
+          ? t('subscription.frequencies.weekly') 
+          : t('subscription.frequencies.everyWeeks', { count: subscription.interval });
       case 'monthly':
-        return subscription.interval === 1 ? 'Monthly' : `Every ${subscription.interval} months`;
+        return subscription.interval === 1 
+          ? t('subscription.frequencies.monthly') 
+          : t('subscription.frequencies.everyMonths', { count: subscription.interval });
       case 'yearly':
-        return subscription.interval === 1 ? 'Yearly' : `Every ${subscription.interval} years`;
+        return subscription.interval === 1 
+          ? t('subscription.frequencies.yearly') 
+          : t('subscription.frequencies.everyYears', { count: subscription.interval });
       default:
         return subscription.frequency;
     }
@@ -51,7 +59,9 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
           </Text>
         </View>
         <View className={`px-2 py-1 rounded ${getStatusColor()}`}>
-          <Text className="text-xs font-medium">{subscription.status}</Text>
+          <Text className="text-xs font-medium capitalize">
+            {t(`subscription.statuses.${subscription.status}`)}
+          </Text>
         </View>
       </View>
 
@@ -61,14 +71,14 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
             {formatCurrency(subscription.price_minor, subscription.currency)}
           </Text>
           <Text className="text-xs mt-1 text-muted-foreground">
-            Next: {formatRelativeDate(nextDue)}
+            {t('subscription.next')}: {formatRelativeDate(nextDue)}
           </Text>
         </View>
 
         {subscription.remind_days_before > 0 && (
           <View className="px-2 py-1 rounded bg-accent">
             <Text className="text-xs font-medium text-accent-foreground">
-              Reminder {subscription.remind_days_before}d before
+              {t('subscription.reminderBeforeValue', { count: subscription.remind_days_before })}
             </Text>
           </View>
         )}

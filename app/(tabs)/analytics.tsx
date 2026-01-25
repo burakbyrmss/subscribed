@@ -4,9 +4,11 @@ import { calculateNextOccurrence, formatCurrency } from '@/utils/date';
 import dayjs from 'dayjs';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 
 export default function AnalyticsScreen() {
+  const { t } = useTranslation();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [settings, setSettings] = useState<Record<SettingKey, string>>({
@@ -109,12 +111,13 @@ export default function AnalyticsScreen() {
       categoryBreakdown: categoryBreakdownList,
     };
   }, [subscriptions, categories, currentMonth, currentYear]);
+  
 
   return (
     <View className="flex-1 bg-background">
             <View className="pt-12 pb-4 px-4 bg-card">
         <Text className="text-3xl font-bold text-card-foreground">
-          Analytics
+          {t('tabs.analytics')}
         </Text>
         <Text className="text-sm mt-1 text-muted-foreground">
             {dayjs().format('MMMM YYYY')}
@@ -125,12 +128,12 @@ export default function AnalyticsScreen() {
         {/* Current Month Total by Currency */}
         <View className="mb-6">
           <Text className="text-sm font-medium mb-3 text-muted-foreground">
-            Current Month Total
+            {t('analytics.totalMonthly')}
           </Text>
           {analytics.currentMonthTotalByCurrency.length === 0 ? (
             <View className="p-6 rounded-lg bg-card">
               <Text className="text-muted-foreground">
-                No active subscriptions this month
+                {t('analytics.noData')}
               </Text>
             </View>
           ) : (
@@ -150,12 +153,12 @@ export default function AnalyticsScreen() {
         {/* Category Breakdown */}
         <View className="mb-6">
           <Text className="text-xl font-bold mb-4 text-foreground">
-            By Category
+            {t('analytics.spendingByCategory')}
           </Text>
 
           {analytics.categoryBreakdown.length === 0 ? (
             <Text className="text-muted-foreground">
-              No active subscriptions this month
+              {t('analytics.noData')}
             </Text>
           ) : (
             analytics.categoryBreakdown.map((category, index) => (
@@ -191,7 +194,7 @@ export default function AnalyticsScreen() {
                   </Text>
                 </View>
                 <Text className="text-xs mt-1 text-muted-foreground">
-                  {category.count} subscription{category.count !== 1 ? 's' : ''}
+                  {t('analytics.subscriptionCount', { count: category.count })}
                 </Text>
               </View>
             ))

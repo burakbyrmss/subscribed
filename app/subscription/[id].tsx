@@ -3,9 +3,11 @@ import { Category, Subscription } from '@/types/database';
 import { calculateNextOccurrence, formatCurrency, formatDate, formatRelativeDate } from '@/utils/date';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SubscriptionDetailScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -31,11 +33,11 @@ export default function SubscriptionDetailScreen() {
   if (!subscription) {
     return (
       <View className="flex-1 bg-background items-center justify-center">
-        <Text className="text-lg text-muted-foreground">Subscription not found</Text>
+        <Text className="text-lg text-muted-foreground">{t('subscription.notFound')}</Text>
         <TouchableOpacity
           onPress={() => router.back()}
           className="mt-4 px-6 py-3 rounded-lg bg-primary">
-          <Text className="text-primary-foreground font-medium">Go Back</Text>
+          <Text className="text-primary-foreground font-medium">{t('subscription.goBack')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -64,11 +66,17 @@ export default function SubscriptionDetailScreen() {
   const getFrequencyLabel = () => {
     switch (subscription.frequency) {
       case 'weekly':
-        return subscription.interval === 1 ? 'Weekly' : `Every ${subscription.interval} weeks`;
+        return subscription.interval === 1 
+          ? t('subscription.frequencies.weekly') 
+          : t('subscription.frequencies.everyWeeks', { count: subscription.interval });
       case 'monthly':
-        return subscription.interval === 1 ? 'Monthly' : `Every ${subscription.interval} months`;
+        return subscription.interval === 1 
+          ? t('subscription.frequencies.monthly') 
+          : t('subscription.frequencies.everyMonths', { count: subscription.interval });
       case 'yearly':
-        return subscription.interval === 1 ? 'Yearly' : `Every ${subscription.interval} years`;
+        return subscription.interval === 1 
+          ? t('subscription.frequencies.yearly') 
+          : t('subscription.frequencies.everyYears', { count: subscription.interval });
       default:
         return subscription.frequency;
     }
@@ -76,15 +84,15 @@ export default function SubscriptionDetailScreen() {
 
   const handleDelete = () => {
     Alert.alert(
-      'Delete Subscription',
-      `Are you sure you want to delete "${subscription.name}"? This action cannot be undone.`,
+      t('subscription.deleteTitle'),
+      t('subscription.deleteConfirm', { name: subscription.name }),
       [
         {
-          text: 'Cancel',
+          text: t('common.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Delete',
+          text: t('common.delete'),
           style: 'destructive',
           onPress: async () => {
             try {
@@ -95,7 +103,7 @@ export default function SubscriptionDetailScreen() {
               router.back();
             } catch (error) {
               console.error('Error deleting subscription:', error);
-              Alert.alert('Error', 'Failed to delete subscription. Please try again.');
+              Alert.alert(t('common.error'), t('subscription.deleteError'));
             }
           },
         },
@@ -105,18 +113,18 @@ export default function SubscriptionDetailScreen() {
 
   const handlePause = () => {
     const action = subscription.status === 'active' ? 'pause' : 'resume';
-    const actionCapitalized = subscription.status === 'active' ? 'Pause' : 'Resume';
+    const actionLabel = subscription.status === 'active' ? t('subscription.pause') : t('subscription.resume');
     
     Alert.alert(
-      `${actionCapitalized} Subscription`,
-      `Are you sure you want to ${action} "${subscription.name}"?`,
+      t('subscription.statusUpdateTitle', { action: actionLabel }),
+      t('subscription.statusUpdateConfirm', { action: action === 'pause' ? t('subscription.pauseAction') : t('subscription.resumeAction'), name: subscription.name }),
       [
         {
-          text: 'Cancel',
+          text: t('common.cancel'),
           style: 'cancel',
         },
         {
-          text: actionCapitalized,
+          text: actionLabel,
           onPress: async () => {
             try {
               const newStatus = subscription.status === 'active' ? 'paused' : 'active';
@@ -130,7 +138,7 @@ export default function SubscriptionDetailScreen() {
               loadData();
             } catch (error) {
               console.error('Error updating subscription status:', error);
-              Alert.alert('Error', 'Failed to update subscription status. Please try again.');
+              Alert.alert(t('common.error'), t('subscription.statusUpdateError'));
             }
           },
         },
@@ -144,7 +152,7 @@ export default function SubscriptionDetailScreen() {
       <View className="pt-12 pb-4 px-4 bg-card border-b border-border">
         <View className="flex-row items-center justify-between mb-4">
           <TouchableOpacity onPress={() => router.back()}>
-            <Text className="text-primary font-medium">← Back</Text>
+            <Text className="text-primary font-medium">← {t('common.back')}</Text>
           </TouchableOpacity>
         </View>
         <View className="flex-row items-center justify-between gap-2">
@@ -153,7 +161,9 @@ export default function SubscriptionDetailScreen() {
               {subscription.name}
             </Text>
             <View className={`px-3 py-1 rounded ${getStatusColor()}`}>
-              <Text className="text-xs font-medium capitalize">{subscription.status}</Text>
+              <Text className="text-xs font-medium capitalize">
+                {t(`subscription.statuses.${subscription.status}`)}
+              </Text>
             </View>
           </View>
           <View className="flex-row gap-2">
@@ -165,13 +175,13 @@ export default function SubscriptionDetailScreen() {
                   : 'bg-green-500 dark:bg-green-600'
               }`}>
               <Text className="text-white font-medium">
-                {subscription.status === 'active' ? 'Pause' : 'Resume'}
+                {subscription.status === 'active' ? t('subscription.pause') : t('subscription.resume')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleDelete}
               className="px-4 py-2 rounded-lg bg-destructive">
-              <Text className="text-destructive-foreground font-medium">Delete</Text>
+              <Text className="text-destructive-foreground font-medium">{t('common.delete')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -180,7 +190,7 @@ export default function SubscriptionDetailScreen() {
       <ScrollView className="flex-1 px-4 pt-4">
         {/* Price */}
         <View className="mb-4 p-4 rounded-lg bg-card border border-border">
-          <Text className="text-sm mb-1 text-muted-foreground">Price</Text>
+          <Text className="text-sm mb-1 text-muted-foreground">{t('subscription.price')}</Text>
           <Text className="text-3xl font-bold text-card-foreground">
             {formatCurrency(subscription.price_minor, subscription.currency)}
           </Text>
@@ -189,7 +199,7 @@ export default function SubscriptionDetailScreen() {
 
         {/* Next Due Date */}
         <View className="mb-4 p-4 rounded-lg bg-card border border-border">
-          <Text className="text-sm mb-1 text-muted-foreground">Next Due Date</Text>
+          <Text className="text-sm mb-1 text-muted-foreground">{t('subscription.nextDueDate')}</Text>
           <Text className="text-xl font-semibold text-card-foreground">
             {formatRelativeDate(nextDue)}
           </Text>
@@ -201,16 +211,16 @@ export default function SubscriptionDetailScreen() {
         {/* Subscription Details */}
         <View className="mb-4 p-4 rounded-lg bg-card border border-border">
           <Text className="text-lg font-semibold mb-3 text-card-foreground">
-            Details
+            {t('subscription.details')}
           </Text>
           
           <View className="mb-3">
-            <Text className="text-sm text-muted-foreground">Frequency</Text>
+            <Text className="text-sm text-muted-foreground">{t('subscription.frequency')}</Text>
             <Text className="text-base mt-1 text-card-foreground">{getFrequencyLabel()}</Text>
           </View>
 
           <View className="mb-3">
-            <Text className="text-sm text-muted-foreground">Anchor Date</Text>
+            <Text className="text-sm text-muted-foreground">{t('subscription.anchorDate')}</Text>
             <Text className="text-base mt-1 text-card-foreground">
               {formatDate(subscription.anchor_date)}
             </Text>
@@ -218,7 +228,7 @@ export default function SubscriptionDetailScreen() {
 
           {subscription.by_month_day && (
             <View className="mb-3">
-              <Text className="text-sm text-muted-foreground">Day of Month</Text>
+              <Text className="text-sm text-muted-foreground">{t('subscription.dayOfMonth')}</Text>
               <Text className="text-base mt-1 text-card-foreground">
                 {subscription.by_month_day}
               </Text>
@@ -227,14 +237,14 @@ export default function SubscriptionDetailScreen() {
 
           {category && (
             <View className="mb-3">
-              <Text className="text-sm text-muted-foreground">Category</Text>
+              <Text className="text-sm text-muted-foreground">{t('subscription.category')}</Text>
               <Text className="text-base mt-1 text-card-foreground">{category.name}</Text>
             </View>
           )}
 
           {subscription.tags && (
             <View className="mb-3">
-              <Text className="text-sm text-muted-foreground">Tags</Text>
+              <Text className="text-sm text-muted-foreground">{t('subscription.tags')}</Text>
               <Text className="text-base mt-1 text-card-foreground">{subscription.tags}</Text>
             </View>
           )}
@@ -243,18 +253,18 @@ export default function SubscriptionDetailScreen() {
         {/* Reminder Settings */}
         <View className="mb-4 p-4 rounded-lg bg-card border border-border">
           <Text className="text-lg font-semibold mb-3 text-card-foreground">
-            Reminder Settings
+            {t('subscription.reminders')}
           </Text>
           
           <View className="mb-3">
-            <Text className="text-sm text-muted-foreground">Remind Before</Text>
+            <Text className="text-sm text-muted-foreground">{t('subscription.remindBefore')}</Text>
             <Text className="text-base mt-1 text-card-foreground">
-              {subscription.remind_days_before} {subscription.remind_days_before === 1 ? 'day' : 'days'} before
+              {t('subscription.remindBeforeValue', { count: subscription.remind_days_before })}
             </Text>
           </View>
 
           <View className="mb-3">
-            <Text className="text-sm text-muted-foreground">Reminder Time</Text>
+            <Text className="text-sm text-muted-foreground">{t('subscription.reminderTime')}</Text>
             <Text className="text-base mt-1 text-card-foreground">
               {subscription.remind_time}
             </Text>
@@ -265,7 +275,7 @@ export default function SubscriptionDetailScreen() {
         {subscription.notes && (
           <View className="mb-4 p-4 rounded-lg bg-card border border-border">
             <Text className="text-lg font-semibold mb-3 text-card-foreground">
-              Notes
+              {t('subscription.notes')}
             </Text>
             <Text className="text-base text-card-foreground">{subscription.notes}</Text>
           </View>
@@ -274,7 +284,7 @@ export default function SubscriptionDetailScreen() {
         {/* Upcoming Occurrences */}
         <View className="mb-4 p-4 rounded-lg bg-card border border-border">
           <Text className="text-lg font-semibold mb-3 text-card-foreground">
-            Upcoming Occurrences
+            {t('subscription.upcomingOccurrences')}
           </Text>
           {nextOccurrences.map((date, index) => (
             <View key={index} className="flex-row justify-between items-center py-2 border-b border-border last:border-b-0">
@@ -291,18 +301,18 @@ export default function SubscriptionDetailScreen() {
         {/* Metadata */}
         <View className="mb-8 p-4 rounded-lg bg-card border border-border">
           <Text className="text-lg font-semibold mb-3 text-card-foreground">
-            Metadata
+            {t('subscription.metadata')}
           </Text>
           
           <View className="mb-3">
-            <Text className="text-sm text-muted-foreground">Created</Text>
+            <Text className="text-sm text-muted-foreground">{t('subscription.created')}</Text>
             <Text className="text-base mt-1 text-card-foreground">
               {formatDate(subscription.created_at.split('T')[0])}
             </Text>
           </View>
 
           <View className="mb-3">
-            <Text className="text-sm text-muted-foreground">Last Updated</Text>
+            <Text className="text-sm text-muted-foreground">{t('subscription.lastUpdated')}</Text>
             <Text className="text-base mt-1 text-card-foreground">
               {formatDate(subscription.updated_at.split('T')[0])}
             </Text>

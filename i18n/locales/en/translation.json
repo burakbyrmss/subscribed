@@ -1,0 +1,183 @@
+{
+  "common": {
+    "add": "Add",
+    "analytics": "Analytics",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "next": "Next",
+    "save": "Save",
+    "settings": "Settings",
+    "skip": "Skip",
+    "subscriptions": "Subscriptions",
+    "welcome": "Welcome",
+    "back": "Back",
+    "done": "Done",
+    "time": "Time",
+    "error": "Error",
+    "success": "Success",
+    "selectOption": "Select an option",
+    "selectDate": "Select date",
+    "modal": "Modal"
+  },
+  "onboarding": {
+    "getStarted": "Get Started",
+    "slides": {
+      "offline": {
+        "description": "Track your subscriptions without an internet connection. Everything works completely offline.",
+        "title": "Works Offline"
+      },
+      "privacy": {
+        "description": "All your subscription data is stored locally on your device. No sign-in required, no cloud sync.",
+        "title": "Privacy First"
+      },
+      "reminders": {
+        "description": "Get notified before your subscriptions renew. Grant notification permissions to receive reminders.",
+        "title": "Smart Reminders"
+      }
+    },
+    "subtitle": "Track all your subscriptions in one place",
+    "title": "Welcome to Subscribed"
+  },
+  "tabs": {
+    "add": "Add",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "subscriptions": "Subscriptions"
+  },
+  "home": {
+    "segments": {
+      "upcoming": "Upcoming (30d)",
+      "all": "All",
+      "paused": "Paused"
+    },
+    "empty": {
+      "title": "No subscriptions found",
+      "adjustFilters": "Try adjusting your filters",
+      "getStarted": "Add your first subscription to get started"
+    },
+    "searchPlaceholder": "Search subscriptions...",
+    "allCategories": "All Categories",
+    "clearFilters": "Clear Filters",
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters"
+  },
+  "add": {
+    "title": "Add Subscription",
+    "form": {
+      "name": "Name",
+      "notifications": "Notifications",
+      "notifyMe": "Notify me",
+      "remindMe": "Remind me",
+      "daysBeforeAt": "days before at",
+      "summary": "Summary",
+      "submit": "Add Subscription"
+    }
+  },
+  "analytics": {
+    "overview": "Overview",
+    "totalMonthly": "Total Monthly",
+    "activeSubscriptions": "Active Subscriptions",
+    "spendingByCategory": "Spending by Category",
+    "upcomingPayments": "Upcoming Payments",
+    "noData": "No data available",
+    "subscriptionCount_one": "{{count}} subscription",
+    "subscriptionCount_other": "{{count}} subscriptions"
+  },
+  "settings": {
+    "appearance": "Appearance",
+    "theme": "Theme",
+    "dataManagement": "Data Management",
+    "exportData": "Export Data",
+    "importData": "Import Data",
+    "dangerZone": "Danger Zone",
+    "resetData": "Reset All Data",
+    "resetDataWarning": "This will permanently delete all your subscriptions and settings.",
+    "themes": {
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "currency": "Currency",
+    "firstDayOfWeek": "First Day of Week",
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday"
+    },
+    "backupRestore": "Backup & Restore",
+    "development": "Development",
+    "developmentDescription": "Test notifications and reset data. For development only.",
+    "sendTestNotification": "Send test notification",
+    "notifications": {
+      "permissionRequired": "Permission required",
+      "enableInSettings": "Enable notifications in Settings to receive test notifications.",
+      "testSent": "Test notification",
+      "checkDevice": "A test notification was sent. Check your device.",
+      "sendFailed": "Failed to send test notification. Ensure notification permissions are granted."
+    }
+  },
+  "subscription": {
+    "notFound": "Subscription not found",
+    "goBack": "Go Back",
+    "price": "Price",
+    "nextDueDate": "Next Due Date",
+    "details": "Details",
+    "frequency": "Frequency",
+    "anchorDate": "Anchor Date",
+    "dayOfMonth": "Day of Month",
+    "category": "Category",
+    "tags": "Tags",
+    "reminders": "Reminders",
+    "remindBefore": "Remind Before",
+    "reminderTime": "Reminder Time",
+    "notes": "Notes",
+    "history": "History",
+    "metadata": "Metadata",
+    "created": "Created",
+    "lastUpdated": "Last Updated",
+    "frequencies": {
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "everyWeeks_one": "Every {{count}} week",
+      "everyWeeks_other": "Every {{count}} weeks",
+      "everyMonths_one": "Every {{count}} month",
+      "everyMonths_other": "Every {{count}} months",
+      "everyYears_one": "Every {{count}} year",
+      "everyYears_other": "Every {{count}} years"
+    },
+    "statuses": {
+      "active": "Active",
+      "paused": "Paused",
+      "canceled": "Canceled"
+    },
+    "deleteTitle": "Delete Subscription",
+    "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "deleteError": "Failed to delete subscription. Please try again.",
+    "pause": "Pause",
+    "resume": "Resume",
+    "pauseAction": "pause",
+    "resumeAction": "resume",
+    "statusUpdateTitle": "{{action}} Subscription",
+    "statusUpdateConfirm": "Are you sure you want to {{action}} \"{{name}}\"?",
+    "statusUpdateError": "Failed to update subscription status. Please try again.",
+    "remindBeforeValue_one": "{{count}} day before",
+    "remindBeforeValue_other": "{{count}} days before",
+    "upcomingOccurrences": "Upcoming Occurrences",
+    "next": "Next"
+  },
+  "dates": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday",
+    "inDays_one": "In {{count}} day",
+    "inDays_other": "In {{count}} days",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago"
+  },
+  "notifications": {
+    "reminderTitle": "Subscription reminder",
+    "reminderBody": "{{name}} renews on {{date}}",
+    "testTitle": "Test notification",
+    "testBody": "Subscribed — notification setup is working."
+  }
+}

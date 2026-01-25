@@ -1,0 +1,176 @@
+{
+  "common": {
+    "add": "Ekle",
+    "analytics": "Analiz",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "next": "İleri",
+    "save": "Kaydet",
+    "settings": "Ayarlar",
+    "skip": "Geç",
+    "subscriptions": "Abonelikler",
+    "welcome": "Hoş Geldiniz",
+    "back": "Geri",
+    "done": "Bitti",
+    "time": "Saat",
+    "error": "Hata",
+    "success": "Başarılı",
+    "selectOption": "Bir seçenek seçin",
+    "selectDate": "Tarih seçin",
+    "modal": "Modal"
+  },
+  "onboarding": {
+    "getStarted": "Başla",
+    "slides": {
+      "offline": {
+        "description": "Aboneliklerinizi internet bağlantısı olmadan takip edin. Her şey tamamen çevrimdışı çalışır.",
+        "title": "Çevrimdışı Çalışır"
+      },
+      "privacy": {
+        "description": "Tüm abonelik verileriniz cihazınızda yerel olarak saklanır. Giriş yapmanız gerekmez, bulut senkronizasyonu yoktur.",
+        "title": "Önce Gizlilik"
+      },
+      "reminders": {
+        "description": "Abonelikleriniz yenilenmeden önce bildirim alın. Hatırlatıcıları almak için bildirim izinlerini verin.",
+        "title": "Akıllı Hatırlatıcılar"
+      }
+    },
+    "subtitle": "Tüm aboneliklerinizi tek bir yerden takip edin",
+    "title": "Subscribed'a Hoş Geldiniz"
+  },
+  "tabs": {
+    "add": "Ekle",
+    "analytics": "Analiz",
+    "settings": "Ayarlar",
+    "subscriptions": "Abonelikler"
+  },
+  "home": {
+    "segments": {
+      "upcoming": "Yaklaşan (30g)",
+      "all": "Hepsi",
+      "paused": "Durdurulan"
+    },
+    "empty": {
+      "title": "Abonelik bulunamadı",
+      "adjustFilters": "Filtrelerinizi ayarlamayı deneyin",
+      "getStarted": "Başlamak için ilk aboneliğinizi ekleyin"
+    },
+    "searchPlaceholder": "Aboneliklerde ara...",
+    "allCategories": "Tüm Kategoriler",
+    "clearFilters": "Filtreleri Temizle",
+    "showFilters": "Filtreleri göster",
+    "hideFilters": "Filtreleri gizle"
+  },
+  "add": {
+    "title": "Abonelik Ekle",
+    "form": {
+      "name": "İsim",
+      "notifications": "Bildirimler",
+      "notifyMe": "Beni bilgilendir",
+      "remindMe": "Hatırlat",
+      "daysBeforeAt": "gün önce saat",
+      "summary": "Özet",
+      "submit": "Abonelik Ekle"
+    }
+  },
+  "analytics": {
+    "overview": "Genel Bakış",
+    "totalMonthly": "Toplam Aylık",
+    "activeSubscriptions": "Aktif Abonelikler",
+    "spendingByCategory": "Kategoriye Göre Harcama",
+    "upcomingPayments": "Yaklaşan Ödemeler",
+    "noData": "Veri bulunamadı",
+    "subscriptionCount": "{{count}} abonelik"
+  },
+  "settings": {
+    "appearance": "Görünüm",
+    "theme": "Tema",
+    "dataManagement": "Veri Yönetimi",
+    "exportData": "Veriyi Dışa Aktar",
+    "importData": "Veriyi İçe Aktar",
+    "dangerZone": "Tehlikeli Bölge",
+    "resetData": "Tüm Verileri Sıfırla",
+    "resetDataWarning": "Bu işlem tüm aboneliklerinizi ve ayarlarınızı kalıcı olarak silecektir.",
+    "themes": {
+      "dark": "Koyu",
+      "light": "Açık"
+    },
+    "currency": "Para Birimi",
+    "firstDayOfWeek": "Haftanın İlk Günü",
+    "days": {
+      "sunday": "Pazar",
+      "monday": "Pazartesi"
+    },
+    "backupRestore": "Yedekle ve Geri Yükle",
+    "development": "Geliştirme",
+    "developmentDescription": "Bildirimleri test edin ve verileri sıfırlayın. Sadece geliştirme amaçlıdır.",
+    "sendTestNotification": "Test bildirimi gönder",
+    "notifications": {
+      "permissionRequired": "İzin gerekiyor",
+      "enableInSettings": "Test bildirimi alabilmek için Ayarlar'dan bildirimleri etkinleştirin.",
+      "testSent": "Test bildirimi",
+      "checkDevice": "Bir test bildirimi gönderildi. Cihazınızı kontrol edin.",
+      "sendFailed": "Test bildirimi gönderilemedi. Bildirim izinlerinin verildiğinden emin olun."
+    }
+  },
+  "subscription": {
+    "notFound": "Abonelik bulunamadı",
+    "goBack": "Geri Git",
+    "price": "Fiyat",
+    "nextDueDate": "Sıradaki Ödeme",
+    "details": "Detaylar",
+    "frequency": "Sıklık",
+    "anchorDate": "Başlangıç Tarihi",
+    "dayOfMonth": "Ayın Günü",
+    "category": "Kategori",
+    "tags": "Etiketler",
+    "reminders": "Hatırlatıcılar",
+    "remindBefore": "Önceden Hatırlat",
+    "reminderTime": "Hatırlatıcı Saati",
+    "notes": "Notlar",
+    "history": "Geçmiş",
+    "metadata": "Meta Veriler",
+    "created": "Oluşturulma",
+    "lastUpdated": "Son Güncelleme",
+    "frequencies": {
+      "weekly": "Haftalık",
+      "monthly": "Aylık",
+      "yearly": "Yıllık",
+      "everyWeeks": "Her {{count}} haftada bir",
+      "everyMonths": "Her {{count}} ayda bir",
+      "everyYears": "Her {{count}} yılda bir"
+    },
+    "statuses": {
+      "active": "Aktif",
+      "paused": "Durduruldu",
+      "canceled": "İptal Edildi"
+    },
+    "deleteTitle": "Aboneliği Sil",
+    "deleteConfirm": "\"{{name}}\" aboneliğini silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+    "deleteError": "Abonelik silinemedi. Lütfen tekrar deneyin.",
+    "pause": "Durdur",
+    "resume": "Devam Et",
+    "pauseAction": "durdurmak",
+    "resumeAction": "devam ettirmek",
+    "statusUpdateTitle": "Aboneliği {{action}}",
+    "statusUpdateConfirm": "\"{{name}}\" aboneliğini {{action}} istediğinize emin misiniz?",
+    "statusUpdateError": "Abonelik durumu güncellenemedi. Lütfen tekrar deneyin.",
+    "remindBeforeValue": "{{count}} gün önce",
+    "upcomingOccurrences": "Yaklaşan Ödemeler",
+    "next": "Sıradaki"
+  },
+  "dates": {
+    "today": "Bugün",
+    "tomorrow": "Yarın",
+    "yesterday": "Dün",
+    "inDays": "{{count}} gün içinde",
+    "daysAgo": "{{count}} gün önce"
+  },
+  "notifications": {
+    "reminderTitle": "Abonelik hatırlatıcı",
+    "reminderBody": "{{name}} aboneliği {{date}} tarihinde yenileniyor",
+    "testTitle": "Test bildirimi",
+    "testBody": "Subscribed — bildirim kurulumu çalışıyor."
+  }
+}

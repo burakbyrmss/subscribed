@@ -2,25 +2,35 @@ import {
   deleteRemindersBySubscription,
   getRemindersBySubscription,
   saveReminder,
-} from '@/database/reminders';
-import { generateUUID, getCurrentDateTime } from '@/database/utils';
-import { Subscription } from '@/types/database';
-import { calculateNextOccurrence } from '@/utils/date';
-import * as Notifications from 'expo-notifications';
-import dayjs from 'dayjs';
+} from "@/database/reminders";
+import { generateUUID, getCurrentDateTime } from "@/database/utils";
+import { Subscription } from "@/types/database";
+import { calculateNextOccurrence } from "@/utils/date";
+import dayjs from "dayjs";
+import * as Notifications from "expo-notifications";
+import i18n from "@/i18n";
 
 const SCHEDULE_AHEAD_COUNT = 6; // Schedule notifications for the next 6 billing occurrences
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+    shouldShowList: false,
+  }),
+});
 
 /**
  * Cancels all scheduled notifications and removes reminder records for a subscription.
  * Call this before re-scheduling (e.g. on subscription update) or when notify_me is turned off.
  */
 export async function cancelNotificationsForSubscription(
-  subscriptionId: string
+  subscriptionId: string,
 ): Promise<void> {
   const reminders = await getRemindersBySubscription(subscriptionId);
   for (const r of reminders) {
-    if (r.status === 'scheduled') {
+    if (r.status === "scheduled") {
       try {
         await Notifications.cancelScheduledNotificationAsync(r.id);
       } catch {
@@ -38,7 +48,7 @@ export async function cancelNotificationsForSubscription(
  * creates new ones for the next N billing dates at (due_date - remind_days_before) at remind_time.
  */
 export async function scheduleNotificationsForSubscription(
-  subscription: Subscription
+  subscription: Subscription,
 ): Promise<void> {
   await cancelNotificationsForSubscription(subscription.id);
 
@@ -47,7 +57,7 @@ export async function scheduleNotificationsForSubscription(
   }
 
   const { remind_days_before, remind_time } = subscription;
-  const [hourStr, minuteStr] = (remind_time || '09:00').split(':');
+  const [hourStr, minuteStr] = (remind_time || "09:00").split(":");
   const hour = parseInt(hourStr, 10);
   const minute = parseInt(minuteStr, 10);
 
@@ -57,12 +67,12 @@ export async function scheduleNotificationsForSubscription(
   for (const dueDateStr of dueDates) {
     // Fire at: (due_date - remind_days_before) at remind_time
     const fireDate = dayjs(dueDateStr)
-      .subtract(remind_days_before, 'day')
+      .subtract(remind_days_before, "day")
       .hour(hour)
       .minute(minute)
       .second(0)
       .millisecond(0);
-
+    console.log("fireDate", fireDate);
     if (fireDate.isBefore(now)) {
       continue; // Skip if the reminder time is in the past
     }
@@ -74,7 +84,7 @@ export async function scheduleNotificationsForSubscription(
       id,
       subscription_id: subscription.id,
       fire_datetime: fireDatetime,
-      status: 'scheduled',
+      status: "scheduled",
       created_at: getCurrentDateTime(),
       updated_at: getCurrentDateTime(),
     });
@@ -83,8 +93,11 @@ export async function scheduleNotificationsForSubscription(
       await Notifications.scheduleNotificationAsync({
         identifier: id,
         content: {
-          title: 'Subscription reminder',
-          body: `${subscription.name} renews on ${dayjs(dueDateStr).format('MMM D, YYYY')}`,
+          title: i18n.t('notifications.reminderTitle'),
+          body: i18n.t('notifications.reminderBody', {
+            name: subscription.name,
+            date: dayjs(dueDateStr).format("LL")
+          }),
           data: { subscriptionId: subscription.id, dueDate: dueDateStr },
         },
         trigger: {
@@ -93,7 +106,7 @@ export async function scheduleNotificationsForSubscription(
         },
       });
     } catch (err) {
-      console.warn('Failed to schedule notification:', err);
+      console.warn("Failed to schedule notification:", err);
       // Reminder record is still in DB; could be cleaned up or retried later
     }
   }
@@ -106,10 +119,13 @@ export async function scheduleNotificationsForSubscription(
 export async function scheduleTestNotification(): Promise<void> {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'Test notification',
-      body: 'Subscribed — notification setup is working.',
+      title: i18n.t('notifications.testTitle'),
+      body: i18n.t('notifications.testBody'),
       data: { _test: true },
     },
-    trigger: null, // fire immediately
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+      seconds: 3,
+    },
   });
 }

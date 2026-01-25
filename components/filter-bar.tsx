@@ -1,5 +1,6 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface FilterBarProps {
@@ -17,6 +18,7 @@ export function FilterBar({
   onCategoryChange,
   categories,
 }: FilterBarProps) {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [showFilters, setShowFilters] = useState(false);
   const isDark = theme === 'dark';
@@ -28,7 +30,7 @@ export function FilterBar({
         <TextInput
           value={searchQuery}
           onChangeText={onSearchChange}
-          placeholder="Search subscriptions..."
+          placeholder={t('home.searchPlaceholder')}
           placeholderTextColor={isDark ? '#9BA1A6' : '#687076'}
           className="flex-1 text-card-foreground"
         />
@@ -37,7 +39,7 @@ export function FilterBar({
       {showFilters && (
         <View className="mt-3">
           <Text className="mb-2 text-sm font-medium text-card-foreground">
-            Category
+            {t('subscription.category')}
           </Text>
           <View className="flex-row flex-wrap">
             <TouchableOpacity
@@ -53,7 +55,7 @@ export function FilterBar({
                     ? 'text-primary-foreground'
                     : 'text-secondary-foreground'
                 }`}>
-                All
+                {t('home.allCategories')}
               </Text>
             </TouchableOpacity>
             {categories.map((category) => (
@@ -83,7 +85,7 @@ export function FilterBar({
         onPress={() => setShowFilters(!showFilters)}
         className="mt-2 self-start">
         <Text className="text-sm text-primary">
-          {showFilters ? 'Hide filters' : 'Show filters'}
+          {showFilters ? t('home.hideFilters') : t('home.showFilters')}
         </Text>
       </TouchableOpacity>
     </View>

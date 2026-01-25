@@ -6,11 +6,13 @@ import { calculateNextOccurrence } from '@/utils/date';
 import dayjs from 'dayjs';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 type Segment = 'upcoming' | 'all' | 'paused';
 
 export default function HomeScreen() {
+  const { t } = useTranslation();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -82,9 +84,9 @@ export default function HomeScreen() {
   }, [subscriptions, segment, searchQuery, selectedCategory]);
 
   const segments: { key: Segment; label: string }[] = [
-    { key: 'upcoming', label: 'Upcoming (30d)' },
-    { key: 'all', label: 'All' },
-    { key: 'paused', label: 'Paused' },
+    { key: 'upcoming', label: t('home.segments.upcoming') },
+    { key: 'all', label: t('home.segments.all') },
+    { key: 'paused', label: t('home.segments.paused') },
   ];
 
   return (
@@ -92,7 +94,7 @@ export default function HomeScreen() {
       {/* Header */}
       <View className="pt-12 pb-4 px-4 bg-card">
         <Text className="text-3xl font-bold text-card-foreground">
-          Subscriptions
+          {t('tabs.subscriptions')}
         </Text>
       </View>
 
@@ -131,12 +133,12 @@ export default function HomeScreen() {
         {filteredSubscriptions.length === 0 ? (
           <View className="items-center justify-center py-12">
             <Text className="text-lg text-muted-foreground">
-              No subscriptions found
+              {t('home.empty.title')}
             </Text>
             <Text className="text-sm mt-2 text-muted-foreground">
               {searchQuery || selectedCategory
-                ? 'Try adjusting your filters'
-                : 'Add your first subscription to get started'}
+                ? t('home.empty.adjustFilters')
+                : t('home.empty.getStarted')}
             </Text>
           </View>
         ) : (

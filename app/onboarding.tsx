@@ -2,30 +2,32 @@ import { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as Notifications from 'expo-notifications';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
-const slides = [
-  {
-    title: 'Privacy First',
-    description: 'All your subscription data is stored locally on your device. No sign-in required, no cloud sync.',
-    icon: '🔒',
-  },
-  {
-    title: 'Works Offline',
-    description: 'Track your subscriptions without an internet connection. Everything works completely offline.',
-    icon: '📱',
-  },
-  {
-    title: 'Smart Reminders',
-    description: 'Get notified before your subscriptions renew. Grant notification permissions to receive reminders.',
-    icon: '🔔',
-  },
-];
-
 export default function OnboardingScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      title: t('onboarding.slides.privacy.title'),
+      description: t('onboarding.slides.privacy.description'),
+      icon: '🔒',
+    },
+    {
+      title: t('onboarding.slides.offline.title'),
+      description: t('onboarding.slides.offline.description'),
+      icon: '📱',
+    },
+    {
+      title: t('onboarding.slides.reminders.title'),
+      description: t('onboarding.slides.reminders.description'),
+      icon: '🔔',
+    },
+  ];
 
   const requestPermissions = async () => {
     const { status } = await Notifications.requestPermissionsAsync();
@@ -94,13 +96,13 @@ export default function OnboardingScreen() {
           onPress={handleNext}
           className="py-4 px-6 rounded-lg mb-3 bg-primary">
           <Text className="text-center text-primary-foreground font-semibold text-lg">
-            {currentSlide === slides.length - 1 ? 'Get Started' : 'Next'}
+            {currentSlide === slides.length - 1 ? t('onboarding.getStarted') : t('common.next')}
           </Text>
         </TouchableOpacity>
         {currentSlide < slides.length - 1 && (
           <TouchableOpacity onPress={handleSkip}>
             <Text className="text-center text-muted-foreground">
-              Skip
+              {t('common.skip')}
             </Text>
           </TouchableOpacity>
         )}
