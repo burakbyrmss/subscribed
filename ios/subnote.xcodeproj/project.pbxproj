@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		17F8F1693A3F2C349D147631 /* libPods-subscribed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78A4ABA39832CA44F018C46 /* libPods-subscribed.a */; };
+		17F8F1693A3F2C349D147631 /* libPods-subnote.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78A4ABA39832CA44F018C46 /* libPods-subnote.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		5A3AA35E3AC6D5F936C92456 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -17,19 +17,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		13B07F961A680F5B00A75B9A /* subscribed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = subscribed.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = subscribed/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = subscribed/Info.plist; sourceTree = "<group>"; };
-		6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = subscribed/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		9D649F5FF7E4CEE73288BF6E /* Pods-subscribed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subscribed.debug.xcconfig"; path = "Target Support Files/Pods-subscribed/Pods-subscribed.debug.xcconfig"; sourceTree = "<group>"; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = subscribed/SplashScreen.storyboard; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* subnote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = subnote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = subnote/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = subnote/Info.plist; sourceTree = "<group>"; };
+		6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = subnote/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		9D649F5FF7E4CEE73288BF6E /* Pods-subnote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subnote.debug.xcconfig"; path = "Target Support Files/Pods-subnote/Pods-subnote.debug.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = subnote/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		C78A4ABA39832CA44F018C46 /* libPods-subscribed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-subscribed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C78A4ABA39832CA44F018C46 /* libPods-subnote.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-subnote.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-subscribed/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = subscribed/AppDelegate.swift; sourceTree = "<group>"; };
-		F11748442D0722820044C1D9 /* subscribed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "subscribed-Bridging-Header.h"; path = "subscribed/subscribed-Bridging-Header.h"; sourceTree = "<group>"; };
-		F85203832C316A72EFF6D34A /* Pods-subscribed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subscribed.release.xcconfig"; path = "Target Support Files/Pods-subscribed/Pods-subscribed.release.xcconfig"; sourceTree = "<group>"; };
+		EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-subnote/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = subnote/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* subnote-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "subnote-Bridging-Header.h"; path = "subnote/subnote-Bridging-Header.h"; sourceTree = "<group>"; };
+		F85203832C316A72EFF6D34A /* Pods-subnote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subnote.release.xcconfig"; path = "Target Support Files/Pods-subnote/Pods-subnote.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,32 +37,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17F8F1693A3F2C349D147631 /* libPods-subscribed.a in Frameworks */,
+				17F8F1693A3F2C349D147631 /* libPods-subnote.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* subscribed */ = {
+		13B07FAE1A68108700A75B9A /* subnote */ = {
 			isa = PBXGroup;
 			children = (
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
-				F11748442D0722820044C1D9 /* subscribed-Bridging-Header.h */,
+				F11748442D0722820044C1D9 /* subnote-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */,
 			);
-			name = subscribed;
+			name = subnote;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				C78A4ABA39832CA44F018C46 /* libPods-subscribed.a */,
+				C78A4ABA39832CA44F018C46 /* libPods-subnote.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -70,7 +70,7 @@
 		4BD7E5CA485A80FD01262B2F /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				7481641328EF10E3433E0B3C /* subscribed */,
+				7481641328EF10E3433E0B3C /* subnote */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -78,18 +78,18 @@
 		570A20230461B9EEC95CCA8E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9D649F5FF7E4CEE73288BF6E /* Pods-subscribed.debug.xcconfig */,
-				F85203832C316A72EFF6D34A /* Pods-subscribed.release.xcconfig */,
+				9D649F5FF7E4CEE73288BF6E /* Pods-subnote.debug.xcconfig */,
+				F85203832C316A72EFF6D34A /* Pods-subnote.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		7481641328EF10E3433E0B3C /* subscribed */ = {
+		7481641328EF10E3433E0B3C /* subnote */ = {
 			isa = PBXGroup;
 			children = (
 				EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */,
 			);
-			name = subscribed;
+			name = subnote;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -102,7 +102,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* subscribed */,
+				13B07FAE1A68108700A75B9A /* subnote */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -117,7 +117,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* subscribed.app */,
+				13B07F961A680F5B00A75B9A /* subnote.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,15 +128,15 @@
 				BB2F792C24A3F905000567C9 /* Expo.plist */,
 			);
 			name = Supporting;
-			path = subscribed/Supporting;
+			path = subnote/Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* subscribed */ = {
+		13B07F861A680F5B00A75B9A /* subnote */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "subscribed" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "subnote" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 				639C2A08FE7BD7EE7602BBC8 /* [Expo] Configure project */,
@@ -151,9 +151,9 @@
 			);
 			dependencies = (
 			);
-			name = subscribed;
-			productName = subscribed;
-			productReference = 13B07F961A680F5B00A75B9A /* subscribed.app */;
+			name = subnote;
+			productName = subnote;
+			productReference = 13B07F961A680F5B00A75B9A /* subnote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -169,7 +169,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "subscribed" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "subnote" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -182,7 +182,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* subscribed */,
+				13B07F861A680F5B00A75B9A /* subnote */,
 			);
 		};
 /* End PBXProject section */
@@ -234,7 +234,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-subscribed-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-subnote-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -247,7 +247,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-subscribed/Pods-subscribed-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-subnote/Pods-subnote-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
@@ -260,7 +260,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-subscribed/Pods-subscribed-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-subnote/Pods-subnote-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		639C2A08FE7BD7EE7602BBC8 /* [Expo] Configure project */ = {
@@ -274,18 +274,18 @@
 			inputPaths = (
 				"$(SRCROOT)/.xcode.env",
 				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/subscribed/subscribed.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-subscribed/expo-configure-project.sh",
+				"$(SRCROOT)/subnote/subnote.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-subnote/expo-configure-project.sh",
 			);
 			name = "[Expo] Configure project";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-subscribed/ExpoModulesProvider.swift",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-subnote/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-subscribed/expo-configure-project.sh\"\n";
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-subnote/expo-configure-project.sh\"\n";
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -293,7 +293,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-subscribed/Pods-subscribed-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-subnote/Pods-subnote-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
@@ -320,7 +320,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-subscribed/Pods-subscribed-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-subnote/Pods-subnote-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -340,11 +340,11 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D649F5FF7E4CEE73288BF6E /* Pods-subscribed.debug.xcconfig */;
+			baseConfigurationReference = 9D649F5FF7E4CEE73288BF6E /* Pods-subnote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = subscribed/subscribed.entitlements;
+				CODE_SIGN_ENTITLEMENTS = subnote/subnote.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B6PH94QJC9;
 				ENABLE_BITCODE = NO;
@@ -352,7 +352,8 @@
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = subscribed/Info.plist;
+				INFOPLIST_FILE = subnote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Subnote;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -366,8 +367,8 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.utilizing.subnote;
-				PRODUCT_NAME = subscribed;
-				SWIFT_OBJC_BRIDGING_HEADER = "subscribed/subscribed-Bridging-Header.h";
+				PRODUCT_NAME = subnote;
+				SWIFT_OBJC_BRIDGING_HEADER = "subnote/subnote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -377,14 +378,15 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F85203832C316A72EFF6D34A /* Pods-subscribed.release.xcconfig */;
+			baseConfigurationReference = F85203832C316A72EFF6D34A /* Pods-subnote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = subscribed/subscribed.entitlements;
+				CODE_SIGN_ENTITLEMENTS = subnote/subnote.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B6PH94QJC9;
-				INFOPLIST_FILE = subscribed/Info.plist;
+				INFOPLIST_FILE = subnote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Subnote;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -398,8 +400,8 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.utilizing.subnote;
-				PRODUCT_NAME = subscribed;
-				SWIFT_OBJC_BRIDGING_HEADER = "subscribed/subscribed-Bridging-Header.h";
+				PRODUCT_NAME = subnote;
+				SWIFT_OBJC_BRIDGING_HEADER = "subnote/subnote-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -527,7 +529,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "subscribed" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "subnote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -536,7 +538,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "subscribed" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "subnote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

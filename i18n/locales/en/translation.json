@@ -37,7 +37,7 @@
       }
     },
     "subtitle": "Track all your subscriptions in one place",
-    "title": "Welcome to Subscribed"
+    "title": "Welcome to Subnote"
   },
   "tabs": {
     "add": "Add",
@@ -178,6 +178,6 @@
     "reminderTitle": "Subscription reminder",
     "reminderBody": "{{name}} renews on {{date}}",
     "testTitle": "Test notification",
-    "testBody": "Subscribed — notification setup is working."
+    "testBody": "Subnote — notification setup is working."
   }
 }

@@ -37,7 +37,7 @@
       }
     },
     "subtitle": "Tüm aboneliklerinizi tek bir yerden takip edin",
-    "title": "Subscribed'a Hoş Geldiniz"
+    "title": "Abonelik Defteri'ne Hoş Geldiniz"
   },
   "tabs": {
     "add": "Ekle",
@@ -171,6 +171,6 @@
     "reminderTitle": "Abonelik hatırlatıcı",
     "reminderBody": "{{name}} aboneliği {{date}} tarihinde yenileniyor",
     "testTitle": "Test bildirimi",
-    "testBody": "Subscribed — bildirim kurulumu çalışıyor."
+    "testBody": "Subnote — bildirim kurulumu çalışıyor."
   }
 }

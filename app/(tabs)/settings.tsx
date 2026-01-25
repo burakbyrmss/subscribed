@@ -122,7 +122,7 @@ export default function SettingsScreen() {
       const csvContent = csvSections.join('\n');
 
       // Create file - use documentDirectory if available, otherwise use a simple filename
-      const fileName = 'subscribed-backup.csv';
+      const fileName = 'subnote-backup.csv';
       // cacheDirectory exists at runtime but types may be outdated
       const cacheDir = (FileSystem as any).cacheDirectory;
       const fileUri = cacheDir ? `${cacheDir}${fileName}` : fileName;
