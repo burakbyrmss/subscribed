@@ -3,7 +3,7 @@ import { getAllCategories, getAllSettings, getAllSubscriptions, getCurrentDateTi
 import { Category, Setting, SettingKey, Subscription } from '@/types/database';
 import { scheduleTestNotification } from '@/utils/notifications';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
+import { File, Paths } from 'expo-file-system';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect } from 'expo-router';
 import * as Sharing from 'expo-sharing';
@@ -121,17 +121,16 @@ export default function SettingsScreen() {
 
       const csvContent = csvSections.join('\n');
 
-      // Create file - use documentDirectory if available, otherwise use a simple filename
+      // Create file using new FileSystem API
       const fileName = 'subnote-backup.csv';
-      // cacheDirectory exists at runtime but types may be outdated
-      const cacheDir = (FileSystem as any).cacheDirectory;
-      const fileUri = cacheDir ? `${cacheDir}${fileName}` : fileName;
-      await FileSystem.writeAsStringAsync(fileUri, csvContent);
+      const file = new File(Paths.cache, fileName);
+      file.create({ overwrite: true });
+      file.write(csvContent);
 
       if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(fileUri);
+        await Sharing.shareAsync(file.uri);
       } else {
-        Alert.alert('Export', 'Backup file saved to: ' + fileUri);
+        Alert.alert('Export', 'Backup file saved to: ' + file.uri);
       }
     } catch (error) {
       console.error('Export error:', error);
@@ -206,7 +205,8 @@ export default function SettingsScreen() {
 
       if (result.canceled) return;
 
-      const fileContent = await FileSystem.readAsStringAsync(result.assets[0].uri);
+      const file = new File(result.assets[0]);
+      const fileContent = await file.text();
       const lines = fileContent.split('\n');
       
       let currentSection = '';
