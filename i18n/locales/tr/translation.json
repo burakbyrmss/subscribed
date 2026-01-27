@@ -109,7 +109,8 @@
     "buyMeCoffee": "Destek",
     "buyMeCoffeeDescription": "Bu uygulamayı beğeniyorsanız, geliştiriciyi desteklemeyi düşünün.",
     "supportDeveloper": "Bana Bir Kahve Al",
-    "development": "Geliştirme",
+    "resetDatabase": "Veritabanını Sıfırla",
+    "resetDatabaseDescription": "Veriyi Dışa Aktardıktan sonra verileri sıfırlayıp tekrar içe aktarabilirsiniz.",
     "developmentDescription": "Veriyi Dışa Aktardıktan sonra verileri sıfırlayıp tekrar içe aktarabilirsiniz.",
     "sendTestNotification": "Test bildirimi gönder",
     "notifications": {

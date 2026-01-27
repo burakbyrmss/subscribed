@@ -462,10 +462,10 @@ export default function SettingsScreen() {
         {/* Development */}
         <View className="mb-8 p-4 rounded-lg bg-card border border-destructive/20">
           <Text className="text-lg font-semibold mb-2 text-card-foreground">
-            {t('settings.development')}
+            {t('settings.resetDatabase')}
           </Text>
           <Text className="text-sm mb-4 text-muted-foreground">
-            {t('settings.developmentDescription')}
+            {t('settings.resetDatabaseDescription')}
           </Text>
           {/* <TouchableOpacity
             onPress={async () => {

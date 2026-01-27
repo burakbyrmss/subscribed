@@ -354,6 +354,7 @@
 				);
 				INFOPLIST_FILE = subnote/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Subnote;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -387,6 +388,7 @@
 				DEVELOPMENT_TEAM = B6PH94QJC9;
 				INFOPLIST_FILE = subnote/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Subnote;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

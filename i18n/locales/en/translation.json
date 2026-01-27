@@ -110,8 +110,8 @@
     "buyMeCoffee": "Support",
     "buyMeCoffeeDescription": "If you enjoy using this app, consider supporting the developer.",
     "supportDeveloper": "Buy Me a Coffee",
-    "development": "Development",
-    "developmentDescription": "After exporting data, you can reset the data and import it again.",
+    "resetDatabase": "Reset Database",
+    "resetDatabaseDescription": "After exporting data, you can reset the data and import it again.",
     "sendTestNotification": "Send test notification",
     "notifications": {
       "permissionRequired": "Permission required",
