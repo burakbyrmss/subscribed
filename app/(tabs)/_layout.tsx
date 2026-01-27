@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useTheme } from '@/hooks/use-theme';
 
 export default function TabLayout() {
   const { theme } = useTheme();

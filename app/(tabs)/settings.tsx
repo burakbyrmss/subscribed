@@ -1,7 +1,8 @@
 import { BuyMeCoffee } from '@/components/buy-me-coffee';
-import { useTheme } from '@/contexts/ThemeContext';
 import { getAllCategories, getAllSettings, getAllSubscriptions, getCurrentDateTime, resetDatabase, saveCategory, saveSetting, saveSubscription } from '@/database';
+import { useTheme } from '@/hooks/use-theme';
 import { Category, Setting, SettingKey, Subscription } from '@/types/database';
+import { reloadAppAsync } from 'expo';
 import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
 import { useFocusEffect } from 'expo-router';
@@ -19,7 +20,7 @@ export default function SettingsScreen() {
     currency_default: 'USD',
     first_day_of_week: '1',
     locale: 'en-US',
-    theme: 'dark',
+    theme,
     onboarding_completed: 'false',
     backup_hint_dismissed: 'false',
   });
@@ -320,16 +321,12 @@ export default function SettingsScreen() {
           onPress: async () => {
             try {
               await resetDatabase();
-              Alert.alert(t('common.success'), t('settings.resetDataSuccess'));
-              // Reset settings to defaults
-              setSettings({
-                currency_default: 'USD',
-                first_day_of_week: '1',
-                locale: 'en-US',
-                theme: 'dark',
-                onboarding_completed: 'false',
-                backup_hint_dismissed: 'false',
-              });
+              Alert.alert(t('common.success'), t('settings.resetDataSuccess'), [
+                {
+                  text: 'OK',
+                  onPress: () => reloadAppAsync(),
+                },
+              ]);
             } catch (error) {
               console.error('Error resetting database:', error);
               Alert.alert(t('common.error'), t('settings.resetDataError'));

@@ -1,19 +1,29 @@
+import { formatCurrency } from '@/utils/date';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Modal, Text, TouchableOpacity, View } from 'react-native';
 import * as IAP from 'react-native-iap';
 
 const PRODUCT_IDS = {
-  small: 'coffee_small', // $1
-  medium: 'coffee_medium', // $5
-  large: 'coffee_large', // $10
+  small: 'coffee_small',
+  medium: 'coffee_medium',
+  large: 'coffee_large',
 };
 
-const PRODUCT_PRICES = {
-  small: 1,
-  medium: 5,
-  large: 10,
+// Prices by locale: TR = 50/150/300 TRY, default = 1/5/10 USD (amount in major units)
+const PRICES_BY_LOCALE: Record<string, { small: number; medium: number; large: number; currency: string }> = {
+  tr: { small: 50, medium: 150, large: 300, currency: 'TRY' },
+  default: { small: 1, medium: 5, large: 10, currency: 'USD' },
 };
+
+function getPrices(locale: string) {
+  return PRICES_BY_LOCALE[locale] ?? PRICES_BY_LOCALE.default;
+}
+
+function formatPrice(amount: number, currency: string): string {
+  const amountMinor = Math.round(amount * 100);
+  return formatCurrency(amountMinor, currency);
+}
 
 interface BuyMeCoffeeProps {
   visible: boolean;
@@ -22,8 +32,9 @@ interface BuyMeCoffeeProps {
 }
 
 export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = React.useState<string | null>(null);
+  const prices = getPrices(i18n.language);
 
   const handlePurchase = async (productId: keyof typeof PRODUCT_IDS) => {
     try {
@@ -44,9 +55,13 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
       // Request purchase
       await IAP.requestPurchase(PRODUCT_IDS[productId], false);
       
+      const amountFormatted = formatPrice(
+        prices[productId] as number,
+        prices.currency,
+      );
       Alert.alert(
         t('buyMeCoffee.success'),
-        t('buyMeCoffee.thankYou', { amount: PRODUCT_PRICES[productId] })
+        t('buyMeCoffee.thankYou', { amount: amountFormatted }),
       );
       
       onClose();
@@ -115,7 +130,7 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
                   : 'bg-card border-primary'
               }`}>
               <Text className="text-center font-semibold text-lg text-card-foreground">
-                {t('buyMeCoffee.small')} - $1
+                {t('buyMeCoffee.small')} - {formatPrice(prices.small, prices.currency)}
               </Text>
             </TouchableOpacity>
 
@@ -128,7 +143,7 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
                   : 'bg-card border-primary'
               }`}>
               <Text className="text-center font-semibold text-lg text-card-foreground">
-                {t('buyMeCoffee.medium')} - $5
+                {t('buyMeCoffee.medium')} - {formatPrice(prices.medium, prices.currency)}
               </Text>
             </TouchableOpacity>
 
@@ -141,7 +156,7 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
                   : 'bg-card border-primary'
               }`}>
               <Text className="text-center font-semibold text-lg text-card-foreground">
-                {t('buyMeCoffee.large')} - $10
+                {t('buyMeCoffee.large')} - {formatPrice(prices.large, prices.currency)}
               </Text>
             </TouchableOpacity>
           </View>

@@ -5,31 +5,28 @@ import { BuyMeCoffee } from './buy-me-coffee';
 
 // Show popup every 7 days after first app use
 const POPUP_INTERVAL_DAYS = 7;
+const FIRST_TIME_DELAY_MS = 60 * 1000; // 1 minute before first popup
 
 export function BuyMeCoffeePopup() {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+
     const checkAndShowPopup = async () => {
       try {
         const settings = await getAllSettings();
         const lastShownSetting = settings.find((s) => s.key === 'buy_me_coffee_last_shown');
         const dismissedSetting = settings.find((s) => s.key === 'buy_me_coffee_dismissed');
-        
-        // Don't show if permanently dismissed
-        if (dismissedSetting?.value === 'true') {
-          return;
-        }
+
+        if (dismissedSetting?.value === 'true') return;
 
         const now = dayjs();
         let shouldShow = false;
 
         if (!lastShownSetting) {
-          // First time - show immediately (you can change this to delay)
-          // For testing, showing immediately. Change to false and add delay logic if needed
           shouldShow = true;
         } else {
-          // Check if 7 days have passed since last shown
           const lastShown = dayjs(lastShownSetting.value);
           const daysSinceLastShown = now.diff(lastShown, 'day');
           shouldShow = daysSinceLastShown >= POPUP_INTERVAL_DAYS;
@@ -37,7 +34,6 @@ export function BuyMeCoffeePopup() {
 
         if (shouldShow) {
           setShowPopup(true);
-          // Update last shown time
           await saveSetting({
             key: 'buy_me_coffee_last_shown',
             value: now.toISOString(),
@@ -49,9 +45,27 @@ export function BuyMeCoffeePopup() {
       }
     };
 
-    // Check after a short delay to ensure app is loaded
-    const timer = setTimeout(checkAndShowPopup, 2000);
-    return () => clearTimeout(timer);
+    let cancelled = false;
+    const schedule = async () => {
+      try {
+        const settings = await getAllSettings();
+        if (cancelled) return;
+        const lastShownSetting = settings.find((s) => s.key === 'buy_me_coffee_last_shown');
+        const dismissedSetting = settings.find((s) => s.key === 'buy_me_coffee_dismissed');
+        if (dismissedSetting?.value === 'true') return;
+        const isFirstTime = !lastShownSetting;
+        const delayMs = isFirstTime ? FIRST_TIME_DELAY_MS : 2000;
+        timerId = setTimeout(checkAndShowPopup, delayMs);
+      } catch {
+        if (!cancelled) timerId = setTimeout(checkAndShowPopup, FIRST_TIME_DELAY_MS);
+      }
+    };
+
+    schedule();
+    return () => {
+      cancelled = true;
+      if (timerId) clearTimeout(timerId);
+    };
   }, []);
 
   const handleClose = async () => {

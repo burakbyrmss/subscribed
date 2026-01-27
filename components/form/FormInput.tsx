@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/use-theme';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Text, TextInput, TextInputProps, View } from 'react-native';
@@ -17,7 +18,8 @@ export function FormInput({
   ...textInputProps
 }: FormInputProps) {
   const { control } = useFormContext();
-
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   return (
     <Controller
       control={control}
@@ -29,6 +31,7 @@ export function FormInput({
             {...textInputProps}
             value={value?.toString() || ''}
             onChangeText={onChange}
+            placeholderTextColor={isDark ? '#9BA1A6' : '#687076'}
             className={`p-3 rounded-lg border bg-card border-input text-card-foreground ${
               error ? 'border-destructive' : ''
             } ${inputClassName}`}

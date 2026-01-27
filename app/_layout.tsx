@@ -1,16 +1,16 @@
-import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
 
 import { BuyMeCoffeePopup } from '@/components/buy-me-coffee-popup';
-import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
-import { initDatabase, getAllSettings } from '@/database';
+import { getAllSettings, initDatabase } from '@/database';
+import { getOsTheme, useTheme } from '@/hooks/use-theme';
 import '@/i18n';
 
 export const unstable_settings = {
@@ -19,7 +19,7 @@ export const unstable_settings = {
 
 function AppContent() {
   const { t } = useTranslation();
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const router = useRouter();
   const segments = useSegments();
   const [isOnboardingChecked, setIsOnboardingChecked] = useState(false);
@@ -32,6 +32,10 @@ function AppContent() {
         const settings = await getAllSettings();
         const onboardingSetting = settings.find((s) => s.key === 'onboarding_completed');
         const hasCompletedOnboarding = onboardingSetting?.value === 'true';
+        const themeSetting = settings.find((s) => s.key === 'theme');
+        if (!themeSetting) {
+          setTheme(getOsTheme());
+        }
         
         setIsOnboardingChecked(true);
         
@@ -73,32 +77,33 @@ function AppContent() {
       subscription.remove();
     };
   }, [router]);
-
+  console.log('theme', theme);
   // Don't render until onboarding check is complete
   if (!isOnboardingChecked) {
     return null;
   }
 
   return (
-    <NavigationThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="onboarding" options={{ headerShown: false } as any} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="subscription/[id]" options={{ headerShown: false } as any} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: t('common.modal') } as any} />
-      </Stack>
-      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-      <BuyMeCoffeePopup />
-    </NavigationThemeProvider>
+    <View style={{ flex: 1 }} className={theme === 'dark' ? 'dark' : 'light'}>
+      {/* <NavigationThemeProvider value={DefaultTheme}> */}
+        <Stack>
+          <Stack.Screen name="onboarding" options={{ headerShown: false } as any} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="subscription/[id]" options={{ headerShown: false } as any} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', title: t('common.modal') } as any} />
+        </Stack>
+        <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+        <BuyMeCoffeePopup />
+      {/* </NavigationThemeProvider> */}
+    </View>
   );
 }
+
 
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider defaultTheme="dark">
-        <AppContent />
-      </ThemeProvider>
+      <AppContent />
     </SafeAreaProvider>
   );
 }

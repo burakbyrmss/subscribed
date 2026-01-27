@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/use-theme';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Text, TextInput, TextInputProps, View } from 'react-native';
@@ -17,6 +18,8 @@ export function FormPriceInput({
   ...textInputProps
 }: FormPriceInputProps) {
   const { control } = useFormContext();
+  const { theme } = useTheme();
+  const placeholderTextColor = theme === 'dark' ? '#9BA1A6' : '#687076';
 
   return (
     <Controller
@@ -32,6 +35,7 @@ export function FormPriceInput({
                 const num = parseFloat(text) || 0;
                 onChange(Math.round(num * 100));
               }}
+              placeholderTextColor={placeholderTextColor}
               className={`p-3 rounded-lg border bg-card border-input text-card-foreground ${
                 error ? 'border-destructive' : ''
               } ${inputClassName}`}

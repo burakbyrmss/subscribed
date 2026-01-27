@@ -188,7 +188,7 @@
     "medium": "Orta Kahve",
     "large": "Büyük Kahve",
     "success": "Teşekkürler!",
-    "thankYou": "${{amount}} desteğiniz için teşekkürler!",
+    "thankYou": "{{amount}} desteğiniz için teşekkürler!",
     "error": "Hata",
     "productNotFound": "Ürün bulunamadı. Lütfen daha sonra tekrar deneyin.",
     "purchaseFailed": "Satın alma başarısız oldu. Lütfen tekrar deneyin.",

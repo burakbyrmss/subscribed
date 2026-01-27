@@ -193,7 +193,7 @@
     "medium": "Medium Coffee",
     "large": "Large Coffee",
     "success": "Thank you!",
-    "thankYou": "Thank you for your support of ${{amount}}!",
+    "thankYou": "Thank you for your support of {{amount}}!",
     "error": "Error",
     "productNotFound": "Product not found. Please try again later.",
     "purchaseFailed": "Purchase failed. Please try again.",
