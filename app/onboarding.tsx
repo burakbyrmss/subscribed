@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -14,6 +14,7 @@ export default function OnboardingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const slides = [
     {
@@ -52,7 +53,12 @@ export default function OnboardingScreen() {
 
   const handleNext = async () => {
     if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
+      const nextIndex = currentSlide + 1;
+      scrollViewRef.current?.scrollTo({
+        x: nextIndex * width,
+        animated: true,
+      });
+      setCurrentSlide(nextIndex);
     } else {
       // Request notification permissions on last slide
       await requestPermissions();
@@ -72,9 +78,11 @@ export default function OnboardingScreen() {
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
       <ScrollView
+        ref={scrollViewRef}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={16}
         onMomentumScrollEnd={(e) => {
           const slideIndex = Math.round(e.nativeEvent.contentOffset.x / width);
           setCurrentSlide(slideIndex);

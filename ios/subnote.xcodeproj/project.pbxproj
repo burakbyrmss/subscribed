@@ -353,7 +353,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = subnote/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Subnote;
+				INFOPLIST_KEY_CFBundleDisplayName = SubsNote;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -387,7 +387,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B6PH94QJC9;
 				INFOPLIST_FILE = subnote/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Subnote;
+				INFOPLIST_KEY_CFBundleDisplayName = SubsNote;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
