@@ -47,7 +47,7 @@
   },
   "home": {
     "segments": {
-      "upcoming": "Yaklaşan (30g)",
+      "active": "Aktif",
       "all": "Hepsi",
       "paused": "Durdurulan"
     },
@@ -91,7 +91,10 @@
     "importData": "Veriyi İçe Aktar",
     "dangerZone": "Tehlikeli Bölge",
     "resetData": "Tüm Verileri Sıfırla",
-    "resetDataWarning": "Bu işlem tüm aboneliklerinizi ve ayarlarınızı kalıcı olarak silecektir.",
+    "reset": "Sıfırla",
+    "resetDataWarning": "TÜM verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz. Bu işlemi yapmadan önce verileri dışa aktarmayı unutmayın. Bu işlem şunları silecektir:\n\n• Tüm abonelikler\n• Tüm kategoriler\n• Tüm ayarlar\n• Tüm ödeme kayıtları\n• Tüm hatırlatıcılar",
+    "resetDataSuccess": "Veritabanı başarıyla sıfırlandı",
+    "resetDataError": "Veritabanı sıfırlanamadı",
     "themes": {
       "dark": "Koyu",
       "light": "Açık"
@@ -103,8 +106,11 @@
       "monday": "Pazartesi"
     },
     "backupRestore": "Yedekle ve Geri Yükle",
+    "buyMeCoffee": "Destek",
+    "buyMeCoffeeDescription": "Bu uygulamayı beğeniyorsanız, geliştiriciyi desteklemeyi düşünün.",
+    "supportDeveloper": "Bana Bir Kahve Al",
     "development": "Geliştirme",
-    "developmentDescription": "Bildirimleri test edin ve verileri sıfırlayın. Sadece geliştirme amaçlıdır.",
+    "developmentDescription": "Veriyi Dışa Aktardıktan sonra verileri sıfırlayıp tekrar içe aktarabilirsiniz.",
     "sendTestNotification": "Test bildirimi gönder",
     "notifications": {
       "permissionRequired": "İzin gerekiyor",
@@ -156,7 +162,8 @@
     "statusUpdateTitle": "Aboneliği {{action}}",
     "statusUpdateConfirm": "\"{{name}}\" aboneliğini {{action}} istediğinize emin misiniz?",
     "statusUpdateError": "Abonelik durumu güncellenemedi. Lütfen tekrar deneyin.",
-    "remindBeforeValue": "{{count}} gün önce",
+    "reminderBeforeValue_one": "{{count}} gün önce hatırlat",
+    "reminderBeforeValue_other": "{{count}} gün önce hatırlat",
     "upcomingOccurrences": "Yaklaşan Ödemeler",
     "next": "Sıradaki"
   },
@@ -172,5 +179,18 @@
     "reminderBody": "{{name}} aboneliği {{date}} tarihinde yenileniyor",
     "testTitle": "Test bildirimi",
     "testBody": "Subnote — bildirim kurulumu çalışıyor."
+  },
+  "buyMeCoffee": {
+    "title": "Bana Bir Kahve Al",
+    "description": "Bu uygulamanın geliştirilmesini destekleyin",
+    "small": "Küçük Kahve",
+    "medium": "Orta Kahve",
+    "large": "Büyük Kahve",
+    "success": "Teşekkürler!",
+    "thankYou": "${{amount}} desteğiniz için teşekkürler!",
+    "error": "Hata",
+    "productNotFound": "Ürün bulunamadı. Lütfen daha sonra tekrar deneyin.",
+    "purchaseFailed": "Satın alma başarısız oldu. Lütfen tekrar deneyin.",
+    "dontShowAgain": "Tekrar gösterme"
   }
 }

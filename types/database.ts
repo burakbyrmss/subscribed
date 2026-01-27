@@ -1,8 +1,8 @@
 // Database Types
-export type SubscriptionFrequency = 'weekly' | 'monthly' | 'yearly';
-export type SubscriptionStatus = 'active' | 'paused' | 'canceled';
-export type OccurrenceStatus = 'due' | 'paid' | 'skipped';
-export type ReminderStatus = 'scheduled' | 'fired' | 'canceled';
+export type SubscriptionFrequency = "weekly" | "monthly" | "yearly";
+export type SubscriptionStatus = "active" | "paused" | "canceled";
+export type OccurrenceStatus = "due" | "paid" | "skipped";
+export type ReminderStatus = "scheduled" | "fired" | "canceled";
 
 export interface Subscription {
   id: string; // UUID
@@ -60,9 +60,9 @@ export interface Reminder {
 
 // Settings keys
 export type SettingKey =
-  | 'currency_default'
-  | 'first_day_of_week'
-  | 'locale'
-  | 'theme'
-  | 'backup_hint_dismissed';
-
+  | "currency_default"
+  | "first_day_of_week"
+  | "locale"
+  | "theme"
+  | "onboarding_completed"
+  | "backup_hint_dismissed";

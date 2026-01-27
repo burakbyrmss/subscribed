@@ -24,7 +24,7 @@ export function FormInput({
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <View className={`mb-4 ${containerClassName}`}>
-          <Text className="mb-2 font-medium text-foreground">{label}</Text>
+          {label ? <Text className="mb-2 font-medium text-foreground">{label}</Text> : null}
           <TextInput
             {...textInputProps}
             value={value?.toString() || ''}

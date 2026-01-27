@@ -47,7 +47,7 @@
   },
   "home": {
     "segments": {
-      "upcoming": "Upcoming (30d)",
+      "active": "Active",
       "all": "All",
       "paused": "Paused"
     },
@@ -92,7 +92,10 @@
     "importData": "Import Data",
     "dangerZone": "Danger Zone",
     "resetData": "Reset All Data",
-    "resetDataWarning": "This will permanently delete all your subscriptions and settings.",
+    "reset": "Reset",
+    "resetDataWarning": "Are you sure you want to delete ALL data? This action cannot be undone. Before doing this, please export the data. This will delete:\n\n• All subscriptions\n• All categories\n• All settings\n• All occurrence logs\n• All reminders",
+    "resetDataSuccess": "Database has been reset successfully",
+    "resetDataError": "Failed to reset database",
     "themes": {
       "dark": "Dark",
       "light": "Light"
@@ -104,8 +107,11 @@
       "monday": "Monday"
     },
     "backupRestore": "Backup & Restore",
+    "buyMeCoffee": "Support",
+    "buyMeCoffeeDescription": "If you enjoy using this app, consider supporting the developer.",
+    "supportDeveloper": "Buy Me a Coffee",
     "development": "Development",
-    "developmentDescription": "Test notifications and reset data. For development only.",
+    "developmentDescription": "After exporting data, you can reset the data and import it again.",
     "sendTestNotification": "Send test notification",
     "notifications": {
       "permissionRequired": "Permission required",
@@ -160,8 +166,8 @@
     "statusUpdateTitle": "{{action}} Subscription",
     "statusUpdateConfirm": "Are you sure you want to {{action}} \"{{name}}\"?",
     "statusUpdateError": "Failed to update subscription status. Please try again.",
-    "remindBeforeValue_one": "{{count}} day before",
-    "remindBeforeValue_other": "{{count}} days before",
+    "reminderBeforeValue_one": "remind {{count}} day before",
+    "reminderBeforeValue_other": "remind {{count}} days before",
     "upcomingOccurrences": "Upcoming Occurrences",
     "next": "Next"
   },
@@ -179,5 +185,18 @@
     "reminderBody": "{{name}} renews on {{date}}",
     "testTitle": "Test notification",
     "testBody": "Subnote — notification setup is working."
+  },
+  "buyMeCoffee": {
+    "title": "Buy Me a Coffee",
+    "description": "Support the development of this app",
+    "small": "Small Coffee",
+    "medium": "Medium Coffee",
+    "large": "Large Coffee",
+    "success": "Thank you!",
+    "thankYou": "Thank you for your support of ${{amount}}!",
+    "error": "Error",
+    "productNotFound": "Product not found. Please try again later.",
+    "purchaseFailed": "Purchase failed. Please try again.",
+    "dontShowAgain": "Don't show again"
   }
 }

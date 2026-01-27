@@ -1,26 +1,29 @@
+import { BuyMeCoffee } from '@/components/buy-me-coffee';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getAllCategories, getAllSettings, getAllSubscriptions, getCurrentDateTime, resetDatabase, saveCategory, saveSetting, saveSubscription } from '@/database';
 import { Category, Setting, SettingKey, Subscription } from '@/types/database';
-import { scheduleTestNotification } from '@/utils/notifications';
 import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
-import * as Notifications from 'expo-notifications';
 import { useFocusEffect } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
+  const insets = useSafeAreaInsets();
   const [settings, setSettings] = useState<Record<SettingKey, string>>({
     currency_default: 'USD',
     first_day_of_week: '1',
     locale: 'en-US',
     theme: 'dark',
+    onboarding_completed: 'false',
     backup_hint_dismissed: 'false',
   });
+  const [showBuyMeCoffee, setShowBuyMeCoffee] = useState(false);
 
   const loadSettings = useCallback(async () => {
     const settingsData = await getAllSettings();
@@ -304,31 +307,32 @@ export default function SettingsScreen() {
 
   const handleResetDatabase = () => {
     Alert.alert(
-      'Reset Database',
-      'Are you sure you want to delete ALL data? This action cannot be undone. This will delete:\n\n• All subscriptions\n• All categories\n• All settings\n• All occurrence logs\n• All reminders',
+      t('settings.resetData'),
+      t('settings.resetDataWarning'),
       [
         {
-          text: 'Cancel',
+          text: t('common.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Reset',
+          text: t('settings.reset'),
           style: 'destructive',
           onPress: async () => {
             try {
               await resetDatabase();
-              Alert.alert('Success', 'Database has been reset successfully');
+              Alert.alert(t('common.success'), t('settings.resetDataSuccess'));
               // Reset settings to defaults
               setSettings({
                 currency_default: 'USD',
                 first_day_of_week: '1',
                 locale: 'en-US',
                 theme: 'dark',
+                onboarding_completed: 'false',
                 backup_hint_dismissed: 'false',
               });
             } catch (error) {
               console.error('Error resetting database:', error);
-              Alert.alert('Error', 'Failed to reset database');
+              Alert.alert(t('common.error'), t('settings.resetDataError'));
             }
           },
         },
@@ -338,7 +342,7 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <View className="pt-12 pb-4 px-4 bg-card">
+      <View className="pb-4 px-4 bg-card" style={{ paddingTop: insets.top }}>
         <Text className="text-3xl font-bold text-card-foreground">
           {t('tabs.settings')}
         </Text>
@@ -419,6 +423,23 @@ export default function SettingsScreen() {
           </View>
         </View>
 
+        {/* Buy Me Coffee */}
+        <View className="mb-4 p-4 rounded-lg bg-card">
+          <Text className="text-lg font-semibold mb-4 text-card-foreground">
+            {t('settings.buyMeCoffee')}
+          </Text>
+          <Text className="text-sm mb-4 text-muted-foreground">
+            {t('settings.buyMeCoffeeDescription')}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setShowBuyMeCoffee(true)}
+            className="py-3 rounded-lg bg-primary">
+            <Text className="text-center text-primary-foreground font-semibold">
+              ☕ {t('settings.supportDeveloper')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Export/Import */}
         <View className="mb-4 p-4 rounded-lg bg-card">
           <Text className="text-lg font-semibold mb-4 text-card-foreground">
@@ -446,7 +467,7 @@ export default function SettingsScreen() {
           <Text className="text-sm mb-4 text-muted-foreground">
             {t('settings.developmentDescription')}
           </Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={async () => {
               try {
                 const { status } = await Notifications.requestPermissionsAsync();
@@ -464,7 +485,7 @@ export default function SettingsScreen() {
             <Text className="text-center font-semibold text-card-foreground">
               {t('settings.sendTestNotification')}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={handleResetDatabase}
             className="py-3 rounded-lg bg-destructive">
@@ -474,6 +495,11 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      
+      <BuyMeCoffee
+        visible={showBuyMeCoffee}
+        onClose={() => setShowBuyMeCoffee(false)}
+      />
     </View>
   );
 }

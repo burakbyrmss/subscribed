@@ -5,10 +5,12 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SubscriptionDetailScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -149,7 +151,7 @@ export default function SubscriptionDetailScreen() {
   return (
     <View className="flex-1 bg-background">
       {/* Header */}
-      <View className="pt-12 pb-4 px-4 bg-card border-b border-border">
+      <View className="pb-4 px-4 bg-card border-b border-border" style={{ paddingTop: insets.top }}>
         <View className="flex-row items-center justify-between mb-4">
           <TouchableOpacity onPress={() => router.back()}>
             <Text className="text-primary font-medium">← {t('common.back')}</Text>
@@ -169,19 +171,19 @@ export default function SubscriptionDetailScreen() {
           <View className="flex-row gap-2">
             <TouchableOpacity
               onPress={handlePause}
-              className={`px-4 py-2 rounded-lg ${
+              className={`px-4 py-2 rounded-xl border ${
                 subscription.status === 'active' 
-                  ? 'bg-yellow-500 dark:bg-yellow-600' 
-                  : 'bg-green-500 dark:bg-green-600'
+                  ? 'border-yellow-500 dark:border-yellow-600' 
+                  : 'border-green-500 dark:border-green-600'
               }`}>
-              <Text className="text-white font-medium">
+              <Text className="text-foreground font-medium">
                 {subscription.status === 'active' ? t('subscription.pause') : t('subscription.resume')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleDelete}
-              className="px-4 py-2 rounded-lg bg-destructive">
-              <Text className="text-destructive-foreground font-medium">{t('common.delete')}</Text>
+              className="px-4 py-2 rounded-xl border border-destructive">
+              <Text className="text-foreground font-medium">{t('common.delete')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -259,7 +261,7 @@ export default function SubscriptionDetailScreen() {
           <View className="mb-3">
             <Text className="text-sm text-muted-foreground">{t('subscription.remindBefore')}</Text>
             <Text className="text-base mt-1 text-card-foreground">
-              {t('subscription.remindBeforeValue', { count: subscription.remind_days_before })}
+              {t('subscription.reminderBeforeValue', { count: subscription.remind_days_before })}
             </Text>
           </View>
 

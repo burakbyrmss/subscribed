@@ -6,9 +6,11 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function AnalyticsScreen() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [settings, setSettings] = useState<Record<SettingKey, string>>({
@@ -115,13 +117,13 @@ export default function AnalyticsScreen() {
 
   return (
     <View className="flex-1 bg-background">
-            <View className="pt-12 pb-4 px-4 bg-card">
+      <View className="pb-4 px-4 bg-card" style={{ paddingTop: insets.top }}>
         <Text className="text-3xl font-bold text-card-foreground">
           {t('tabs.analytics')}
         </Text>
         <Text className="text-sm mt-1 text-muted-foreground">
-            {dayjs().format('MMMM YYYY')}
-          </Text>
+          {dayjs().format('MMMM YYYY')}
+        </Text>
       </View>
       <ScrollView className="flex-1 px-4">
 

@@ -1,4 +1,4 @@
-import { FormInput, FormSelect, DatePickerField, TimePickerField } from '@/components/form';
+import { FormDatePicker, FormInput, FormNumberInput, FormPriceInput, FormSelect, FormSwitch, FormTimePicker } from '@/components/form';
 import { generateUUID, getAllSettings, getCurrentDateTime, saveSubscription } from '@/database';
 import { SubscriptionFormData, subscriptionSchema } from '@/schemas/subscription';
 import { Subscription } from '@/types/database';
@@ -8,12 +8,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Controller, FormProvider, Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function AddSubscriptionScreen() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const [currencyDefault, setCurrencyDefault] = useState<string>('USD');
   const isFirstMount = useRef(true);
@@ -79,7 +81,7 @@ export default function AddSubscriptionScreen() {
     }, [reset, getDefaultValues])
   );
 
-  const { control, handleSubmit, watch } = formMethods;
+  const { handleSubmit, watch } = formMethods;
 
   const formData = watch();
   const nextOccurrences = formData.anchor_date && formData.frequency
@@ -96,6 +98,7 @@ export default function AddSubscriptionScreen() {
 
   const onSubmit: SubmitHandler<SubscriptionFormData> = async (data) => {
     try {
+      console.log('data', data);
       const subscription: Subscription = {
         id: generateUUID(),
         ...data,
@@ -120,7 +123,7 @@ export default function AddSubscriptionScreen() {
   return (
     <FormProvider {...formMethods}>
       <View className="flex-1 bg-background">
-        <View className="pt-12 pb-4 px-4 bg-card">
+        <View className="pb-4 px-4 bg-card" style={{ paddingTop: insets.top }}>
           <Text className="text-3xl font-bold text-card-foreground">
             {t('add.title')}
           </Text>
@@ -134,36 +137,12 @@ export default function AddSubscriptionScreen() {
         />
 
         {/* Price */}
-        <View className="mb-4">
-          <Text className="mb-2 font-medium text-foreground">
-            {t('subscription.price')} ({currencyDefault}) *
-          </Text>
-          <Controller
-            control={control}
-            name="price_minor"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <>
-                <View className={`p-3 rounded-lg border bg-card border-input ${
-                  error ? 'border-destructive' : ''
-                }`}>
-                  <TextInput
-                    value={value ? (value / 100).toString() : ''}
-                    onChangeText={(text) => {
-                      const num = parseFloat(text) || 0;
-                      onChange(Math.round(num * 100));
-                    }}
-                    keyboardType="decimal-pad"
-                    placeholder="0.00"
-                    className="text-card-foreground"
-                  />
-                </View>
-                {error && (
-                  <Text className="mt-1 text-sm text-destructive">{error.message}</Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+        <FormPriceInput
+          label={`${t('subscription.price')} (${currencyDefault}) *`}
+          name="price_minor"
+          keyboardType="decimal-pad"
+          placeholder="0.00"
+        />
 
         {/* Frequency */}
         <FormSelect
@@ -177,17 +156,9 @@ export default function AddSubscriptionScreen() {
         />
 
         {/* Anchor Date */}
-        <Controller
-          control={control}
+        <FormDatePicker
+          label={`${t('subscription.anchorDate')} *`}
           name="anchor_date"
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <DatePickerField
-              value={value}
-              onChange={onChange}
-              error={error}
-              label={`${t('subscription.anchorDate')} *`}
-            />
-          )}
         />
 
         {/* Notes */}
@@ -202,58 +173,28 @@ export default function AddSubscriptionScreen() {
         {/* Notify me & Remind me */}
         <View className="mb-4">
           <Text className="mb-2 font-medium text-foreground">{t('add.form.notifications')}</Text>
-          <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-foreground">{t('add.form.notifyMe')}</Text>
-            <Controller
-              control={control}
-              name="notify_me"
-              render={({ field: { onChange, value } }) => (
-                <Switch
-                  value={value}
-                  onValueChange={onChange}
-                  trackColor={{ false: '#d1d5db', true: '#34d399' }}
-                  thumbColor="#fff"
-                />
-              )}
-            />
-          </View>
+          <FormSwitch
+            label={t('add.form.notifyMe')}
+            name="notify_me"
+            trackColor={{ false: '#d1d5db', true: '#34d399' }}
+            thumbColor="#fff"
+            containerClassName="mb-0"
+          />
           <View>
             <Text className="mb-2 font-medium text-foreground">{t('add.form.remindMe')}</Text>
             <View className="flex-row flex-wrap items-center gap-2">
-              <Controller
-                control={control}
+              <FormNumberInput
+                label=""
                 name="remind_days_before"
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <View className="flex-row items-center">
-                    <View
-                      className={`w-16 p-3 rounded-lg border bg-card border-input ${
-                        error ? 'border-destructive' : ''
-                      }`}>
-                      <TextInput
-                        value={value?.toString() || ''}
-                        onChangeText={(text) => onChange(parseInt(text) || 0)}
-                        keyboardType="number-pad"
-                        className="text-card-foreground"
-                      />
-                    </View>
-                    {error && (
-                      <Text className="ml-2 text-sm text-destructive">{error.message}</Text>
-                    )}
-                  </View>
-                )}
+                keyboardType="number-pad"
+                containerClassName="mb-0"
+                inputClassName="w-16"
               />
               <Text className="text-foreground">{t('add.form.daysBeforeAt')}</Text>
-              <Controller
-                control={control}
+              <FormTimePicker
                 name="remind_time"
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TimePickerField
-                    value={value}
-                    onChange={onChange}
-                    error={error}
-                    compact
-                  />
-                )}
+                compact
+                containerClassName="mb-0"
               />
             </View>
           </View>

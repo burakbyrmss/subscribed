@@ -7,8 +7,8 @@ export function useOnboarding() {
   useEffect(() => {
     const checkOnboarding = async () => {
       const settings = await getAllSettings();
-      const backupHintSetting = settings.find((s) => s.key === 'backup_hint_dismissed');
-      const completed = backupHintSetting?.value === 'true';
+      const onboardingSetting = settings.find((s) => s.key === 'onboarding_completed');
+      const completed = onboardingSetting?.value === 'true';
       setHasCompletedOnboarding(completed);
     };
     checkOnboarding();

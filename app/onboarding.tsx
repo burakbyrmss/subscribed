@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import { useTranslation } from 'react-i18next';
+import { saveSetting } from '@/database';
+import { getCurrentDateTime } from '@/database/utils';
 
 const { width } = Dimensions.get('window');
 
 export default function OnboardingScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
@@ -34,24 +38,39 @@ export default function OnboardingScreen() {
     return status === 'granted';
   };
 
+  const markOnboardingCompleted = async () => {
+    try {
+      await saveSetting({
+        key: 'onboarding_completed',
+        value: 'true',
+        updated_at: getCurrentDateTime(),
+      });
+    } catch (error) {
+      console.error('Failed to save onboarding completion:', error);
+    }
+  };
+
   const handleNext = async () => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
       // Request notification permissions on last slide
       await requestPermissions();
-      // TODO: Mark onboarding as completed in settings
+      // Mark onboarding as completed
+      await markOnboardingCompleted();
       router.replace('/(tabs)');
     }
   };
 
   const handleSkip = async () => {
     await requestPermissions();
+    // Mark onboarding as completed even when skipped
+    await markOnboardingCompleted();
     router.replace('/(tabs)');
   };
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background" style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
       <ScrollView
         horizontal
         pagingEnabled

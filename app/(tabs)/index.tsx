@@ -8,11 +8,13 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-type Segment = 'upcoming' | 'all' | 'paused';
+type Segment = 'active' | 'all' | 'paused';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -31,7 +33,7 @@ export default function HomeScreen() {
     }, [loadData])
   );
 
-  const [segment, setSegment] = useState<Segment>('upcoming');
+  const [segment, setSegment] = useState<Segment>('active');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -39,18 +41,13 @@ export default function HomeScreen() {
     let filtered = subscriptions;
 
     // Filter by segment
-    if (segment === 'upcoming') {
-      const thirtyDaysFromNow = dayjs().add(30, 'days');
-      filtered = filtered.filter((sub) => {
-        if (sub.status !== 'active') return false;
-        const nextDue = calculateNextOccurrence(sub, 1)[0];
-        return dayjs(nextDue).isBefore(thirtyDaysFromNow) || dayjs(nextDue).isSame(thirtyDaysFromNow, 'day');
-      });
+    if (segment === 'active') {
+      filtered = filtered.filter((sub) => sub.status === 'active');
     } else if (segment === 'paused') {
       filtered = filtered.filter((sub) => sub.status === 'paused');
     } else {
-      // All - show all except paused
-      filtered = filtered.filter((sub) => sub.status !== 'paused');
+      // All - show all subscriptions
+      // No filtering needed
     }
 
     // Filter by search query
@@ -69,8 +66,8 @@ export default function HomeScreen() {
       filtered = filtered.filter((sub) => sub.category_id === selectedCategory);
     }
 
-    // Sort by next due date for upcoming, by name for others
-    if (segment === 'upcoming') {
+    // Sort by next due date for active, by name for others
+    if (segment === 'active' || segment === 'all') {
       filtered.sort((a, b) => {
         const nextA = calculateNextOccurrence(a, 1)[0];
         const nextB = calculateNextOccurrence(b, 1)[0];
@@ -84,7 +81,7 @@ export default function HomeScreen() {
   }, [subscriptions, segment, searchQuery, selectedCategory]);
 
   const segments: { key: Segment; label: string }[] = [
-    { key: 'upcoming', label: t('home.segments.upcoming') },
+    { key: 'active', label: t('home.segments.active') },
     { key: 'all', label: t('home.segments.all') },
     { key: 'paused', label: t('home.segments.paused') },
   ];
@@ -92,7 +89,7 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-background">
       {/* Header */}
-      <View className="pt-12 pb-4 px-4 bg-card">
+      <View className="pb-4 px-4 bg-card" style={{ paddingTop: insets.top }}>
         <Text className="text-3xl font-bold text-card-foreground">
           {t('tabs.subscriptions')}
         </Text>
