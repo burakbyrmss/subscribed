@@ -11,6 +11,7 @@
 		17F8F1693A3F2C349D147631 /* libPods-subnote.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78A4ABA39832CA44F018C46 /* libPods-subnote.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		5A3AA35E3AC6D5F936C92456 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */; };
+		8439E9232F295208006675C6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8439E9222F295208006675C6 /* StoreKit.framework */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		C0EE93AFFC72D7FE3F47DE45 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = subnote/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = subnote/Info.plist; sourceTree = "<group>"; };
 		6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = subnote/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		8439E9222F295208006675C6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9D649F5FF7E4CEE73288BF6E /* Pods-subnote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subnote.debug.xcconfig"; path = "Target Support Files/Pods-subnote/Pods-subnote.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = subnote/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
@@ -38,6 +40,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17F8F1693A3F2C349D147631 /* libPods-subnote.a in Frameworks */,
+				8439E9232F295208006675C6 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +64,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8439E9222F295208006675C6 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				C78A4ABA39832CA44F018C46 /* libPods-subnote.a */,
 			);
