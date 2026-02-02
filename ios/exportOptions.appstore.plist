@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- App Store / TestFlight export -->
+  <key>method</key>
+  <string>app-store-connect</string>
+
+  <!-- Automatic signing -->
+  <key>signingStyle</key>
+  <string>automatic</string>
+
+  <!-- Your Apple Developer Team ID (example) -->
+  <key>teamID</key>
+  <string>B6PH94QJC9</string>
+
+  <!-- Upload dSYM symbols (crash reports) -->
+  <key>uploadSymbols</key>
+  <true/>
+
+  <!-- Notarization is for macOS apps; keep false or omit for iOS -->
+  <key>uploadBitcode</key>
+  <false/>
+
+  <!-- For modern iOS exports, typically omit compileBitcode.
+       If your Xcode demands it, set false. -->
+  <key>compileBitcode</key>
+  <false/>
+
+  <!-- Helps Xcode choose the right distribution cert -->
+  <key>destination</key>
+  <string>export</string>
+</dict>
+</plist>

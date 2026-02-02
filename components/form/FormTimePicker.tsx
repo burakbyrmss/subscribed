@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/use-theme';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import React, { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -14,6 +15,7 @@ interface TimePickerInnerProps {
 
 function TimePickerInner({ value, onChange, error, label, compact }: TimePickerInnerProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const [show, setShow] = useState(false);
   const parseTime = (hhmm: string): Date => {
     const d = new Date();          // ✅ today (current tz/DST rules)
@@ -95,6 +97,7 @@ function TimePickerInner({ value, onChange, error, label, compact }: TimePickerI
                     display="spinner"
                     onChange={handleChange}
                     is24Hour={true}
+                    themeVariant={theme}
                     style={{ backgroundColor: 'transparent' }}
                   />
                 </View>
@@ -108,6 +111,7 @@ function TimePickerInner({ value, onChange, error, label, compact }: TimePickerI
               display="default" 
               onChange={handleChange}
               is24Hour={true}
+              themeVariant={theme}
             />
           )}
         </>

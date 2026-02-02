@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/use-theme';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ interface DatePickerInnerProps {
 
 function DatePickerInner({ value, onChange, error, label }: DatePickerInnerProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const [show, setShow] = useState(false);
   const dateValue = value ? dayjs(value).toDate() : new Date();
   const [internalDate, setInternalDate] = useState<Date>(dateValue);
@@ -87,6 +89,7 @@ function DatePickerInner({ value, onChange, error, label }: DatePickerInnerProps
                     mode="date"
                     display="spinner"
                     onChange={handleChange}
+                    themeVariant={theme}
                     style={{ backgroundColor: 'transparent' }}
                   />
                 </View>
@@ -99,6 +102,7 @@ function DatePickerInner({ value, onChange, error, label }: DatePickerInnerProps
               mode="date"
               display="default"
               onChange={handleChange}
+              themeVariant={theme}
             />
           )}
         </>

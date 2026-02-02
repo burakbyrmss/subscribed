@@ -12,7 +12,13 @@
     "android:expo": "expo run:android",
     "ios:expo": "expo start --ios --localhost",
     "web:expo": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "ios:pods": "cd ios && pod install && cd ..",
+    "ios:clean": "xcodebuild -workspace ios/subnote.xcworkspace -scheme subnote -configuration Release clean",
+    "ios:archive": "mkdir -p ios/build && xcodebuild -workspace ios/subnote.xcworkspace -scheme subnote -configuration Release -sdk iphoneos -archivePath ios/build/subnote.xcarchive archive",
+    "ios:export": "xcodebuild -allowProvisioningUpdates -exportArchive -archivePath ios/build/subnote.xcarchive -exportPath ios/build/export -exportOptionsPlist ios/exportOptions.appstore.plist",
+    "ios:ipa": "npm run ios:archive && npm run ios:export",
+    "ios:open:outputs": "open ios/build || true"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
