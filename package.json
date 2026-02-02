@@ -18,7 +18,11 @@
     "ios:archive": "mkdir -p ios/build && xcodebuild -workspace ios/subnote.xcworkspace -scheme subnote -configuration Release -sdk iphoneos -archivePath ios/build/subnote.xcarchive archive",
     "ios:export": "xcodebuild -allowProvisioningUpdates -exportArchive -archivePath ios/build/subnote.xcarchive -exportPath ios/build/export -exportOptionsPlist ios/exportOptions.appstore.plist",
     "ios:ipa": "npm run ios:archive && npm run ios:export",
-    "ios:open:outputs": "open ios/build || true"
+    "ios:open:outputs": "open ios/build || true",
+    "android:clean": "cd android && ./gradlew clean",
+    "android:aab": "cd android && ./gradlew bundleRelease",
+    "android:apk": "cd android && ./gradlew assembleRelease",
+    "android:open:outputs": "open android/app/build/outputs || true"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
