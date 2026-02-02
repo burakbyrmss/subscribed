@@ -1,19 +1,28 @@
 import { formatCurrency } from '@/utils/date';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Modal, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import * as IAP from 'react-native-iap';
+import { isUserCancelledError } from 'react-native-iap';
 
-const PRODUCT_IDS = {
-  small: 'coffee_small',
-  medium: 'coffee_medium',
-  large: 'coffee_large',
-};
+// Platform-specific product IDs
+const PRODUCT_IDS = Platform.select({
+  ios: {
+    small: 'subsNoteCoffeeSmall1',
+    medium: 'subsNoteCoffeeMid1',
+    large: 'subsNoteCoffeeLarge1',
+  },
+  default: {
+    small: 'coffee_small',
+    medium: 'coffee_medium',
+    large: 'coffee_large',
+  },
+})!;
 
 // Prices by locale: TR = 50/150/300 TRY, default = 1/5/10 USD (amount in major units)
 const PRICES_BY_LOCALE: Record<string, { small: number; medium: number; large: number; currency: string }> = {
-  tr: { small: 50, medium: 150, large: 300, currency: 'TRY' },
-  default: { small: 1, medium: 5, large: 10, currency: 'USD' },
+  tr: { small: 49.99, medium: 249.99, large: 499.99, currency: 'TRY' },
+  default: { small: 0.99, medium: 4.99, large: 9.99, currency: 'USD' },
 };
 
 function getPrices(locale: string) {
@@ -41,19 +50,31 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
       setLoading(productId);
       
       // Initialize IAP connection
-      await IAP.initConnection();
+      await IAP.initConnection().then(() => {
+        console.log('IAP initialized');
+      }).catch((error) => {
+        console.error('IAP initialization error', error);
+      });
       
-      // Get available products
-      const products = await IAP.getProducts([PRODUCT_IDS[productId]]);
+      const sku = PRODUCT_IDS[productId];
+
+      // Fetch available products
+      const products = await IAP.fetchProducts({ skus: [sku], type: 'in-app' });
       
-      if (products.length === 0) {
+      if (!products || products.length === 0) {
         Alert.alert(t('buyMeCoffee.error'), t('buyMeCoffee.productNotFound'));
         setLoading(null);
         return;
       }
 
-      // Request purchase
-      await IAP.requestPurchase(PRODUCT_IDS[productId], false);
+      // Request purchase (event-based - result comes via listeners)
+      await IAP.requestPurchase({
+        request: {
+          apple: { sku },
+          google: { skus: [sku] },
+        },
+        type: 'in-app',
+      });
       
       const amountFormatted = formatPrice(
         prices[productId] as number,
@@ -65,9 +86,10 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
       );
       
       onClose();
-    } catch (error: any) {
-      if (error.code !== 'E_USER_CANCELLED') {
-        Alert.alert(t('buyMeCoffee.error'), error.message || t('buyMeCoffee.purchaseFailed'));
+    } catch (error: unknown) {
+      if (!isUserCancelledError(error)) {
+        const message = error instanceof Error ? error.message : t('buyMeCoffee.purchaseFailed');
+        Alert.alert(t('buyMeCoffee.error'), message);
       }
     } finally {
       setLoading(null);
@@ -82,12 +104,12 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
     
     // Listen for purchase updates
     const purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
-      // Handle successful purchase
-      IAP.finishTransaction(purchase, true).catch(console.error);
+      // Handle successful purchase - finish transaction (consumable product)
+      IAP.finishTransaction({ purchase, isConsumable: true }).catch(console.error);
     });
 
     const purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
-      if (error.code !== 'E_USER_CANCELLED') {
+      if (!isUserCancelledError(error)) {
         Alert.alert(t('buyMeCoffee.error'), error.message || t('buyMeCoffee.purchaseFailed'));
       }
       setLoading(null);
