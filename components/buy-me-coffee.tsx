@@ -60,7 +60,7 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
 
       // Fetch available products
       const products = await IAP.fetchProducts({ skus: [sku], type: 'in-app' });
-      
+      console.log('products', products);
       if (!products || products.length === 0) {
         Alert.alert(t('buyMeCoffee.error'), t('buyMeCoffee.productNotFound'));
         setLoading(null);
@@ -75,17 +75,6 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
         },
         type: 'in-app',
       });
-      
-      const amountFormatted = formatPrice(
-        prices[productId] as number,
-        prices.currency,
-      );
-      Alert.alert(
-        t('buyMeCoffee.success'),
-        t('buyMeCoffee.thankYou', { amount: amountFormatted }),
-      );
-      
-      onClose();
     } catch (error: unknown) {
       if (!isUserCancelledError(error)) {
         const message = error instanceof Error ? error.message : t('buyMeCoffee.purchaseFailed');
@@ -106,10 +95,28 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
     const purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
       // Handle successful purchase - finish transaction (consumable product)
       IAP.finishTransaction({ purchase, isConsumable: true }).catch(console.error);
+      const productKey = (Object.entries(PRODUCT_IDS) as [keyof typeof PRODUCT_IDS, string][]).find(
+        ([, v]) => v === purchase.productId,
+      )?.[0];
+      if (productKey) {
+        const prices = getPrices(i18n.language);
+        const amountFormatted = formatPrice(
+          prices[productKey] as number,
+          prices.currency,
+        );
+        Alert.alert(
+          t('buyMeCoffee.success'),
+          t('buyMeCoffee.thankYou', { amount: amountFormatted }),
+        );
+        onClose();
+      }
+      setLoading(null);
     });
 
     const purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
-      if (!isUserCancelledError(error)) {
+      if (isUserCancelledError(error)) {
+        Alert.alert(t('buyMeCoffee.error'), t('buyMeCoffee.productNotFound'));
+      } else {
         Alert.alert(t('buyMeCoffee.error'), error.message || t('buyMeCoffee.purchaseFailed'));
       }
       setLoading(null);
@@ -119,7 +126,7 @@ export function BuyMeCoffee({ visible, onClose, onDismiss }: BuyMeCoffeeProps) {
       purchaseUpdateSubscription.remove();
       purchaseErrorSubscription.remove();
     };
-  }, [visible, t]);
+  }, [visible, t, i18n.language, onClose]);
 
   return (
     <Modal

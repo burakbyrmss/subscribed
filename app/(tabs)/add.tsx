@@ -133,7 +133,7 @@ export default function AddSubscriptionScreen() {
         <FormInput
           label={`${t('add.form.name')} *`}
           name="name"
-          placeholder="Netflix, Spotify, etc."
+          placeholder={t('add.form.namePlaceholder')}
         />
 
         {/* Price */}
@@ -141,7 +141,7 @@ export default function AddSubscriptionScreen() {
           label={`${t('subscription.price')} (${currencyDefault}) *`}
           name="price_minor"
           keyboardType="decimal-pad"
-          placeholder="0.00"
+          placeholder={t('add.form.pricePlaceholder')}
         />
 
         {/* Frequency */}
@@ -165,7 +165,7 @@ export default function AddSubscriptionScreen() {
         <FormInput
           label={t('subscription.notes')}
           name="notes"
-          placeholder="Optional notes about this subscription"
+          placeholder={t('add.form.notesPlaceholder')}
           multiline
           numberOfLines={4}
         />

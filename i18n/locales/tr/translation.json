@@ -66,6 +66,11 @@
     "title": "Abonelik Ekle",
     "form": {
       "name": "İsim",
+      "namePlaceholder": "Netflix, Spotify, vb.",
+      "pricePlaceholder": "0,00",
+      "priceUseComma": "Ondalık için virgül (,) kullanın",
+      "priceUsePeriod": "Ondalık için nokta (.) kullanın",
+      "notesPlaceholder": "Bu abonelik hakkında isteğe bağlı notlar",
       "notifications": "Bildirimler",
       "notifyMe": "Beni bilgilendir",
       "remindMe": "Hatırlat",
@@ -190,7 +195,7 @@
     "success": "Teşekkürler!",
     "thankYou": "{{amount}} desteğiniz için teşekkürler!",
     "error": "Hata",
-    "productNotFound": "Ürün bulunamadı. Lütfen daha sonra tekrar deneyin.",
+    "productNotFound": "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
     "purchaseFailed": "Satın alma başarısız oldu. Lütfen tekrar deneyin.",
     "dontShowAgain": "Tekrar gösterme"
   }

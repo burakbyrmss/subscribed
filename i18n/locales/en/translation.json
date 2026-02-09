@@ -66,6 +66,11 @@
     "title": "Add Subscription",
     "form": {
       "name": "Name",
+      "namePlaceholder": "Netflix, Spotify, etc.",
+      "pricePlaceholder": "0.00",
+      "priceUseComma": "Use comma (,) for decimals",
+      "priceUsePeriod": "Use period (.) for decimals",
+      "notesPlaceholder": "Optional notes about this subscription",
       "notifications": "Notifications",
       "notifyMe": "Notify me",
       "remindMe": "Remind me",
@@ -195,7 +200,7 @@
     "success": "Thank you!",
     "thankYou": "Thank you for your support of {{amount}}!",
     "error": "Error",
-    "productNotFound": "Product not found. Please try again later.",
+    "productNotFound": "An error occured. Please try again later.",
     "purchaseFailed": "Purchase failed. Please try again.",
     "dontShowAgain": "Don't show again"
   }
