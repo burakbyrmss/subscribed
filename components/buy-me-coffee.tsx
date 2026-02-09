@@ -12,10 +12,10 @@ const PRODUCT_IDS = Platform.select({
     medium: 'subsNoteCoffeeMid1',
     large: 'subsNoteCoffeeLarge1',
   },
-  default: {
-    small: 'coffee_small',
-    medium: 'coffee_medium',
-    large: 'coffee_large',
+  android: {
+    small:  'subsnote_coffee_small_1',
+    medium: 'subsnote_coffee_medium_1',
+    large:  'subsnote_coffee_large_1',
   },
 })!;
 
