@@ -7,6 +7,8 @@
     "start:cache": "react-native start --reset-cache",
     "start:expo": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
+    "bump-version": "node ./scripts/bump-version.js",
+    "bump-build": "node ./scripts/bump-build.js",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "android:expo": "expo run:android",
