@@ -1,7 +1,7 @@
 {
   "name": "subnote",
   "main": "expo-router/entry",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "react-native start",
     "start:cache": "react-native start --reset-cache",

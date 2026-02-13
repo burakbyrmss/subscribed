@@ -8,9 +8,9 @@ import { isUserCancelledError } from 'react-native-iap';
 // Platform-specific product IDs
 const PRODUCT_IDS = Platform.select({
   ios: {
-    small: 'subsNoteCoffeeSmall1',
-    medium: 'subsNoteCoffeeMid1',
-    large: 'subsNoteCoffeeLarge1',
+    small: 'subsNoteCoffeeSmall2',
+    medium: 'subsNoteCoffeeMid2',
+    large: 'subsNoteCoffeeLarge2',
   },
   android: {
     small:  'subsnote_coffee_small_1',
