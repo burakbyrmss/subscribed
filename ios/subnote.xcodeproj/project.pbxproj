@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		E1F2A3B41A68108700A75B9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B51A68108700A75B9A /* InfoPlist.strings */; };
 		17F8F1693A3F2C349D147631 /* libPods-subnote.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78A4ABA39832CA44F018C46 /* libPods-subnote.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		5A3AA35E3AC6D5F936C92456 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */; };
@@ -32,6 +33,8 @@
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = subnote/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* subnote-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "subnote-Bridging-Header.h"; path = "subnote/subnote-Bridging-Header.h"; sourceTree = "<group>"; };
 		F85203832C316A72EFF6D34A /* Pods-subnote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subnote.release.xcconfig"; path = "Target Support Files/Pods-subnote/Pods-subnote.release.xcconfig"; sourceTree = "<group>"; };
+		E1F2A3B61A68108700A75B9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E1F2A3B71A68108700A75B9A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,10 +58,20 @@
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				E1F2A3B51A68108700A75B9A /* InfoPlist.strings */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */,
 			);
 			name = subnote;
+			sourceTree = "<group>";
+		};
+		E1F2A3B51A68108700A75B9A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1F2A3B61A68108700A75B9A /* en */,
+				E1F2A3B71A68108700A75B9A /* tr */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -180,6 +193,7 @@
 			knownRegions = (
 				en,
 				Base,
+				tr,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -198,6 +212,7 @@
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E1F2A3B41A68108700A75B9A /* InfoPlist.strings in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				C0EE93AFFC72D7FE3F47DE45 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -357,14 +372,13 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = subnote/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SubsNote;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -391,14 +405,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B6PH94QJC9;
 				INFOPLIST_FILE = subnote/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SubsNote;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
