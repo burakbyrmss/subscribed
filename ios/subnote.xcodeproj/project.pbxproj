@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		E1F2A3B41A68108700A75B9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B51A68108700A75B9A /* InfoPlist.strings */; };
 		17F8F1693A3F2C349D147631 /* libPods-subnote.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78A4ABA39832CA44F018C46 /* libPods-subnote.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		5A3AA35E3AC6D5F936C92456 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */; };
 		8439E9232F295208006675C6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8439E9222F295208006675C6 /* StoreKit.framework */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		C0EE93AFFC72D7FE3F47DE45 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */; };
+		E1F2A3B41A68108700A75B9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B51A68108700A75B9A /* InfoPlist.strings */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,13 +28,13 @@
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = subnote/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		C78A4ABA39832CA44F018C46 /* libPods-subnote.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-subnote.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F2A3B61A68108700A75B9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = subnote/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E1F2A3B71A68108700A75B9A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = subnote/tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EDCC2981FF25D3F5F3BA0019 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-subnote/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = subnote/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* subnote-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "subnote-Bridging-Header.h"; path = "subnote/subnote-Bridging-Header.h"; sourceTree = "<group>"; };
 		F85203832C316A72EFF6D34A /* Pods-subnote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-subnote.release.xcconfig"; path = "Target Support Files/Pods-subnote/Pods-subnote.release.xcconfig"; sourceTree = "<group>"; };
-		E1F2A3B61A68108700A75B9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E1F2A3B71A68108700A75B9A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,15 +63,6 @@
 				6127830335958DC4950C352D /* PrivacyInfo.xcprivacy */,
 			);
 			name = subnote;
-			sourceTree = "<group>";
-		};
-		E1F2A3B51A68108700A75B9A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1F2A3B61A68108700A75B9A /* en */,
-				E1F2A3B71A68108700A75B9A /* tr */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -355,6 +346,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E1F2A3B51A68108700A75B9A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1F2A3B61A68108700A75B9A /* en */,
+				E1F2A3B71A68108700A75B9A /* tr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
