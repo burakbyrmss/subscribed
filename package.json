@@ -24,7 +24,8 @@
     "android:clean": "cd android && ./gradlew clean",
     "android:aab": "cd android && ./gradlew bundleRelease",
     "android:apk": "cd android && ./gradlew assembleRelease",
-    "android:open:outputs": "open android/app/build/outputs || true"
+    "android:open:outputs": "open android/app/build/outputs || true",
+    "clean": "bash ./scripts/clean.sh"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
